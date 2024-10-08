@@ -10,19 +10,49 @@
 
 <body>
     <?php
-    $mes = 8;
-    $anio = 1972;
-    $dia = 13;
+    $mes = 2;
+    $anio = 1971;
+    $dia = 1;
     ?>
 
     <h1>Calendario de <?= $mes ?>/<?= $dia ?></h1>
 
     <?php
     $primerDiaMes = new DateTime(sprintf("%d-%d-%d", $anio, $mes, $dia));
-    var_dump($primerDiaMes);
+    // var_dump($primerDiaMes);
+    // echo "<br>";
     $diaSemana = $primerDiaMes->format('N');
-    var_dump($diaSemana);
+    // var_dump($diaSemana);
+    $diasMes = $primerDiaMes->format('t');
+
+
+
     ?>
+
+
+    <table class="table table-bordered">
+        <tr>
+            <?php for ($dia = 1; $dia < $diaSemana; $dia++): ?>
+                <td>&nbsp;</td>
+            <?php endfor; ?>
+
+            <?php for ($dia = 1; $dia + $diaSemana - 1 <= $diasMes + $diaSemana - 1; $dia++): ?>
+                <td><?= $dia ?></td>
+                <?php if ((($dia + $diaSemana - 1) % 7) == 0) {
+                    echo "</tr><tr>";
+                }
+                ?>
+            <?php endfor; ?>
+            <?php
+            while (($dia + $diaSemana - 1) % 7 != 0) {
+                echo "<td>&nbsp</td>";
+                $dia++;
+            }
+            ?>
+
+        </tr>
+    </table>
+
 
 </body>
 
