@@ -13,6 +13,8 @@
 <body>
     <h1>Su pedido gracias</h1>
     <?php
+    include "data.php";
+
     $errores = [];
     $hayError = false;
 
@@ -24,6 +26,10 @@
         array_push($errores, "No se ha especificado el tipo de masa");
     } else {
         $masa = $_POST['masa'];
+        if (!isset($tiposMasa[$masa])) {
+            $hayError = true;
+            array_push($errores, "El valor recibido para la masa no es válido");
+        }
     }
 
 
@@ -42,11 +48,9 @@
     }
 
     $ingredientes = filter_input(INPUT_POST, 'ia', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
-    var_dump($ingredientes);
     if (!$ingredientes) {
         $ingredientes = [];
     }
-    var_dump($ingredientes);
 
 
     // $numcalle = filter_input(INPUT_POST, 'numcalle', FILTER_VALIDATE_INT);

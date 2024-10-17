@@ -12,7 +12,7 @@
     <h2>Datos del fichero subido</h2>
     <p><?= var_dump($_FILES) ?></p>
     <p><?= var_dump($_FILES['documentos']) ?></p>
-    <p><?= var_dump($_FILES['documentos']['tmp_name']) ?></p>
+    <p><?= var_dump($_FILES['documentos']) ?></p>
     <h2>Ficheros subidos</h2>
     <?php
 
