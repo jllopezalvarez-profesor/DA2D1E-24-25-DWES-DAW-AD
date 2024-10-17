@@ -91,7 +91,15 @@
 
                     <fieldset>
                         <legend>Ingredientes adicionales</legend>
-
+                        <?php foreach ($ingredientesAdicionales as $codigo => $nombre): ?>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="ia[]" id="ia<?= $codigo ?>" value="<?= $codigo ?>">
+                                <label class="form-check-label" for="ia<?= $codigo ?>">
+                                    <?= $nombre ?>
+                                </label>
+                            </div>
+                        <?php endforeach ?>
+                        <!--
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="IA-PIM" id="ia-pim" name="ia[]">
                             <label class="form-check-label" for="ia-pim">Pimiento</label>
@@ -120,6 +128,7 @@
                             <input class="form-check-input" type="checkbox" value="IA-BBQ" id="ia-bbq" name="ia[]">
                             <label class="form-check-label" for="ia-bbq">Extra de queso</label>
                         </div>
+                            -->
                     </fieldset>
                 </fieldset>
 

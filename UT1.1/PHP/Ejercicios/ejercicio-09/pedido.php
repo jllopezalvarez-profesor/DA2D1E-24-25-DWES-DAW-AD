@@ -38,6 +38,10 @@
         array_push($errores, "No se ha especificado el tamaño de la pizza");
     } else {
         $tamanio = $_POST['tamanio'];
+        if (!isset($tamanios[$tamanio])) {
+            $hayError = true;
+            array_push($errores, "El valor recibido para el tamaño no es válido");
+        }
     }
 
     if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
@@ -48,6 +52,8 @@
     }
 
     $ingredientes = filter_input(INPUT_POST, 'ia', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+    // Si no se elige ningún ingrediente, el valor de $ingredientes será null.
+    // Si es null, cambiamos este null por un array vacío para que sea más fácil procesarlo.
     if (!$ingredientes) {
         $ingredientes = [];
     }
@@ -59,13 +65,13 @@
     //     array_push($errores, "No se ha especificado el número de la calle o no es un entero");
     // }
 
-    $numcalle = $_POST['numcalle'];
+    // $numcalle = $_POST['numcalle'];
 
-    $numcalle = filter_var($numcalle, FILTER_VALIDATE_INT);
-    if (!$numcalle) {
-        $hayError = true;
-        array_push($errores, "No se ha especificado el número de la calle o no es un entero");
-    }
+    // $numcalle = filter_var($numcalle, FILTER_VALIDATE_INT);
+    // if (!$numcalle) {
+    //     $hayError = true;
+    //     array_push($errores, "No se ha especificado el número de la calle o no es un entero");
+    // }
 
 
     ?>
@@ -92,6 +98,16 @@
             <li><?= $masa ?></li>
             <li><?= $tamanio ?></li>
             <li><?= $email ?></li>
+            <?php if ($ingredientes): ?>
+                <li>Ingredientes adicionales:
+                    <ul>
+                        <?php foreach ($ingredientes as $ingrediente): ?>
+                            <li><?= $ingredientesAdicionales[$ingrediente] ?></li>
+                        <?php endforeach ?>
+                    </ul>
+
+                </li>
+            <?php endif ?>
         </ul>
     <?php endif; ?>
 

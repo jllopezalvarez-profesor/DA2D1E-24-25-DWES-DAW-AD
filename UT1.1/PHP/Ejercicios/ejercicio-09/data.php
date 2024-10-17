@@ -13,3 +13,13 @@ $tamanios = array(
     'L' => 'Grande',
     'XL' => 'Familiar'
 );
+
+$ingredientesAdicionales = array(
+    'IA-PI' => 'Pimiento',
+    'IA-CE' => 'Cebolla',
+    'IA-CP' => 'Carne picada',
+    'IA-PL' => 'Pollo',
+    'IA-BE' => 'Berenjena',
+    'IA-XQ' => 'Extra de queso',
+    'IA-BBQ' => 'Salsa barbacoa'
+);
