@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        td {
+            height: 7em;
+        }
+    </style>
 </head>
 
 <body>
     <?php
-    $mes = 2;
-    $anio = 1971;
+    $mes = 11;
+    $anio = 2024;
     $dia = 1;
     ?>
 
-    <h1>Calendario de <?= $mes ?>/<?= $dia ?></h1>
+    <h1>Calendario <?= $mes ?>/<?= $anio ?></h1>
 
     <?php
     $primerDiaMes = new DateTime(sprintf("%d-%d-%d", $anio, $mes, $dia));
