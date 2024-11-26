@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de eventos</title>
+</head>
+<body>
+<header>
+
+    <h1 th:text="'Listado de eventos de ' + ${usuario}">Eventos del usuario</h1>
+    <ul th:remove="all-but-first">
+        <li th:each="language: ${languages}" th:text="${language}">es</li>
+        <li>en</li>
+        <li>fr</li>
+    </ul>
+</header>
+<table border="1">
+    <caption>Eventos</caption>
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Título</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Inicio</th>
+        <th scope="col">Fin</th>
+        <th scope="col">Observaciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event : ${events}">
+        <th scope="row" th:text="${event.eventId}"></th>
+        <td th:text="${event.title}">Titulo</td>
+        <td th:text="${event.description}">Descripción</td>
+        <td th:text="${#temporals.format(event.start, 'dd/MM/yyyy HH:mm:ss')}">Inicio</td>
+        <td th:text="${#temporals.format(event.end)}">Fin</td>
+        <td th:text="'Fila ' + ${eventStat.count} + ' de ' + ${eventStat.size} ">Fila 1 de 5</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <td colspan="6">Hay un total de <span th:remove="tag" th:text="${#lists.size(events)}"></span> eventos</td>
+    </tfoot>
+</table>
+
+
+<p><a href="/event/new">Crear nuevo evento</a></p>
+</body>
+</html>

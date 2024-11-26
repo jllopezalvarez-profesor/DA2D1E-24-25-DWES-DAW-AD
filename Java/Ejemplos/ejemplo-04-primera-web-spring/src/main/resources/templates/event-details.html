@@ -1,0 +1,36 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de eventos</title>
+    <style>
+        body {
+            font-family: arial;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Detalle de evento <span th:text="${event.getEventId()}">Hola</span></h1>
+    <p>Se ha recibido un valor <span th:remove="tag" th:text="${eventId}">2</span> en la URL</p>
+    <ul th:remove="all-but-first">
+        <li th:each="language: ${languages}" th:text="${language}">es</li>
+        <li>en</li>
+        <li>fr</li>
+    </ul>
+</header>
+
+<p>Titulo: <span th:text="${event.getTitle()}"></span></p>
+<p>Titulo (getter sin paréntesis): <span th:text="${event.getTitle}"></span></p>
+<p>Titulo (atributo): <span th:text="${event.title}"></span></p>
+<p>Descripción: <span th:text="${event.getDescription()}"></span></p>
+<p>Fecha de inicio: <span th:text="${event.getStart()}"></span></p>
+<p th:if="${event.getEnd() != null}">Fecha de fin: <span th:text="${event.getEnd()}"></span></p>
+<p th:if="${event.getEnd() == null}">El evento no tiene una fecha de fin </p>
+
+<p th:if="${event}"></p>
+
+
+<p><a href="/event">Volver al listado</a></p>
+</body>
+</html>
