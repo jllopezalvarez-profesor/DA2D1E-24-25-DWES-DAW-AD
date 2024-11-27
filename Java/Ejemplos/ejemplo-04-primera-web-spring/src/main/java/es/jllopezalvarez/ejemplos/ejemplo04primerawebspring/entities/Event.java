@@ -1,4 +1,4 @@
-package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.model;
+package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @ToString
 public class Event {
-    private final int eventId;
+    private final long eventId;
     private final String title;
     private String description;
     private LocalDateTime start;

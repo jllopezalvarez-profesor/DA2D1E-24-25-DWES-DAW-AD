@@ -1,7 +1,9 @@
 package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.controllers;
 
 
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.model.Event;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities.Event;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.EventRepository;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.EventRepositoryImpl;
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.Repository;
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.RepositoryImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,14 +20,26 @@ import java.util.List;
 @RequestMapping("/event")
 public class EventController {
 
+
+    private final EventRepository eventRepository;
+
+    public EventController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
+
     // Mapping que solo admite GET
     //@RequestMapping(value = "", method = RequestMethod.GET)
     @GetMapping({"", "/"})
     public ModelAndView getAllEvents() {
-        List<Event> events = new ArrayList<>();
-        events.add(new Event(1, "Evento 1", "Descripción evento 1", LocalDateTime.now(), LocalDateTime.now()));
-        events.add(new Event(2, "Evento 2", "Descripción evento 2", LocalDateTime.now(), LocalDateTime.now()));
-        events.add(new Event(3, "Evento 3", "Descripción evento 1", LocalDateTime.now(), LocalDateTime.now()));
+
+        List<Event> events =  eventRepository.findAll();
+
+
+
+//        List<Event> events = new ArrayList<>();
+//        events.add(new Event(1, "Evento 1", "Descripción evento 1", LocalDateTime.now(), LocalDateTime.now()));
+//        events.add(new Event(2, "Evento 2", "Descripción evento 2", LocalDateTime.now(), LocalDateTime.now()));
+//        events.add(new Event(3, "Evento 3", "Descripción evento 1", LocalDateTime.now(), LocalDateTime.now()));
         ModelAndView modelAndView = new ModelAndView("event-list", "events", events);
         modelAndView.addObject("usuario", "José Luis López Álvarez");
 
