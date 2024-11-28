@@ -1,5 +1,10 @@
 package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base;
 
+import java.util.Collection;
+
 public interface Repository<T, ID> {
-    T findById(ID id);
+    long count();
+    void save(T t);
+    Collection<T> findAll();
+
 }

@@ -2,8 +2,8 @@ package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.controllers;
 
 
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities.Event;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.EventRepository;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.EventRepositoryImpl;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.generic.EventRepository;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.notgeneric.NotGenericEventRepository;
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.Repository;
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.RepositoryImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -32,7 +33,7 @@ public class EventController {
     @GetMapping({"", "/"})
     public ModelAndView getAllEvents() {
 
-        List<Event> events =  eventRepository.findAll();
+        Collection<Event> events =  eventRepository.findAll();
 
 
 
@@ -56,7 +57,7 @@ public class EventController {
     public String getEventDetails(@ModelAttribute(name = "eventId") @PathVariable(name = "id") int eventId, Model model) {
         System.out.println("Id recibido: " + eventId);
 
-        Event event = new Event(1, "Comida con los amigos de Alcocebre", "Nos vamos a la plaza mayor a comer bocadillo de calamares", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(5));
+        Event event = new Event(1L, "Comida con los amigos de Alcocebre", "Nos vamos a la plaza mayor a comer bocadillo de calamares", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(5));
         //Event event = new Event(1, "Comida con los amigos de Alcocebre", "Nos vamos a la plaza mayor a comer bocadillo de calamares", LocalDateTime.now().plusDays(2), null);
 
 //        model.addAttribute("eventId", eventId)
@@ -78,9 +79,7 @@ public class EventController {
 
 
     private void pruebas(){
-        Repository<Event, Integer> repo = new RepositoryImpl<>();
 
-        Event e = repo.findById(4);
 
     }
 

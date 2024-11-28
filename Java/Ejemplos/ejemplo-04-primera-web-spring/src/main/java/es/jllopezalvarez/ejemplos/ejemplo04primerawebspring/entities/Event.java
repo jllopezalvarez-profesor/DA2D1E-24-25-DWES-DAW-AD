@@ -9,13 +9,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @ToString
-public class Event {
-    private final long eventId;
+public class Event implements Entity<Long> {
+    private final Long eventId;
     private final String title;
     private String description;
     private LocalDateTime start;
     private LocalDateTime end;
 
+    @Override
+    public Long getId() {
+        return this.eventId;
+    }
 }
 
 
