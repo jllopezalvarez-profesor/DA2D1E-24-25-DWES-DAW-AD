@@ -7,15 +7,18 @@ import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.notgene
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.Repository;
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.RepositoryImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/event")
@@ -54,17 +57,20 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public String getEventDetails(@ModelAttribute(name = "eventId") @PathVariable(name = "id") int eventId, Model model) {
+    public String getEventDetails(@ModelAttribute(name = "eventId") @PathVariable(name = "id") long eventId, Model model) {
         System.out.println("Id recibido: " + eventId);
 
-        Event event = new Event(1L, "Comida con los amigos de Alcocebre", "Nos vamos a la plaza mayor a comer bocadillo de calamares", LocalDateTime.now().plusDays(2), LocalDateTime.now().plusDays(2).plusHours(5));
-        //Event event = new Event(1, "Comida con los amigos de Alcocebre", "Nos vamos a la plaza mayor a comer bocadillo de calamares", LocalDateTime.now().plusDays(2), null);
+        Optional<Event> event = eventRepository.findById(eventId);
 
-//        model.addAttribute("eventId", eventId)
-        model.addAttribute("event", event)
-                .addAttribute("otraCoas", "Esto es otra cosa");
 
-        return "event-details";
+
+        if (event.isPresent()) {
+            model.addAttribute("event", event.orElseThrow())
+                    .addAttribute("otraCoas", "Esto es otra cosa");
+            return "event-details";
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
     }
 
     @GetMapping("/new")

@@ -2,10 +2,7 @@ package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base;
 
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities.Entity;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RepositoryImpl<T extends Entity<ID>, ID> implements Repository<T, ID> {
 
@@ -25,5 +22,13 @@ public class RepositoryImpl<T extends Entity<ID>, ID> implements Repository<T, I
     @Override
     public Collection<T> findAll() {
         return map.values();
+    }
+
+    @Override
+    public Optional<T> findById(ID id) {
+        if (map.containsKey(id)) {
+            return Optional.of(map.get(id));
+        }
+        return Optional.empty();
     }
 }
