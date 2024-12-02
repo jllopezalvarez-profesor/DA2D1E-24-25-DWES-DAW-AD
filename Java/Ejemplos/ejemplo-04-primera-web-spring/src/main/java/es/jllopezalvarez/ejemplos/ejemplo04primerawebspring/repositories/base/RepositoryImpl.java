@@ -2,7 +2,10 @@ package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base;
 
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities.Entity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class RepositoryImpl<T extends Entity<ID>, ID> implements Repository<T, ID> {
 

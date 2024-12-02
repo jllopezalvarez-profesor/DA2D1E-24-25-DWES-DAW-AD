@@ -2,10 +2,7 @@ package es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.controllers;
 
 
 import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.entities.Event;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.generic.EventRepository;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.notgeneric.NotGenericEventRepository;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.Repository;
-import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.repositories.base.RepositoryImpl;
+import es.jllopezalvarez.ejemplos.ejemplo04primerawebspring.services.EventService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,21 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/event")
+@RequestMapping("/events")
 public class EventController {
 
 
-    private final EventRepository eventRepository;
+    private final EventService eventService;
 
-    public EventController(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
     }
 
     // Mapping que solo admite GET
@@ -36,7 +32,7 @@ public class EventController {
     @GetMapping({"", "/"})
     public ModelAndView getAllEvents() {
 
-        Collection<Event> events =  eventRepository.findAll();
+        Collection<Event> events =  eventService.findAll();
 
 
 
@@ -60,7 +56,7 @@ public class EventController {
     public String getEventDetails(@ModelAttribute(name = "eventId") @PathVariable(name = "id") long eventId, Model model) {
         System.out.println("Id recibido: " + eventId);
 
-        Optional<Event> event = eventRepository.findById(eventId);
+        Optional<Event> event = eventService.findById(eventId);
 
 
 
