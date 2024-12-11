@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+<body>
+    <h1 th:text="${message}">Esto es el título</h1>
+    <ul>
+        <!-- /* <li th:each="student: ${students}" th:text="${student.getFirstName()} + ' ' + ${student.getLastName()}" >Nombre Apellido</li> */ -->
+        <li th:each="student: ${students}" th:text="|${student.getFirstName()} + ${student.getLastName()}|" >Nombre Apellido</li>
+    </ul>
+
+    <h2>Datos del curso</h2>
+    <p th:text="|${course.getName()} - ${course.getDescription()}|" ></p>
+    <h3>Alumnos en el curso</h3>
+    <ul>
+        <li th:each="student : ${course.getStudents()}" th:text="|${student.getFirstName()} ${student.getLastName()}|" ></li>
+    </ul>
+
+
+</body>
+</html>
