@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listado de todos los libros con sus autores</title>
+</head>
+<body>
+<h1>Listado de todos los libros con sus autores</h1>
+<ul>
+    <li th:each="book : ${books}">
+        <div th:text="${book.getTitle()}"></div>
+
+        <th:block th:if="${book.getAuthors().size()}">
+
+            <div>Autores:</div>
+            <ul>
+                <li th:each="author : ${book.getAuthors()}" th:text="${author.getName()}"></li>
+            </ul>
+        </th:block>
+    </li>
+
+</ul>
+
+</body>
+</html>
