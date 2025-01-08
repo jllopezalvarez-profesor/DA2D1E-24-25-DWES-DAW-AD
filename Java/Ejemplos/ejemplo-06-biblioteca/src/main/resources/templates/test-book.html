@@ -11,13 +11,13 @@
 <h1>Listado de todos los libros con sus autores</h1>
 <ul>
     <li th:each="book : ${books}">
-        <div th:text="${book.getTitle()}"></div>
+        <div th:text="|${book.getBookId()} - ${book.getTitle()}|"></div>
 
         <th:block th:if="${book.getAuthors().size()}">
 
             <div>Autores:</div>
             <ul>
-                <li th:each="author : ${book.getAuthors()}" th:text="${author.getName()}"></li>
+                <li th:each="author : ${book.getAuthors()}" th:text="|${author.getAuthorId()} - ${author.getName()}|"></li>
             </ul>
         </th:block>
     </li>

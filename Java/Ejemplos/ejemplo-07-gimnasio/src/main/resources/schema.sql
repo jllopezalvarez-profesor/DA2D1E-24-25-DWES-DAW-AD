@@ -1,0 +1,1 @@
+create table pepe (id int not null)
