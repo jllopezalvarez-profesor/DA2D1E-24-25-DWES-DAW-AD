@@ -12,4 +12,5 @@ public interface TeacherRepository extends ListCrudRepository<Teacher, Long> {
     List<Teacher> findBySportClassId (Long id);
     List<Teacher> findByFirstNameOrSportClassIdOrderBySportClassName (String firstName, Long id);
 
+
 }

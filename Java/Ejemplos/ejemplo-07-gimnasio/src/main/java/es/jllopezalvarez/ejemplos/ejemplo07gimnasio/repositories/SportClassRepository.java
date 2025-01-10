@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SportClassRepository extends JpaRepository<SportClass, Long> {
     List<SportClass> findByNameIgnoringCaseOrderByNameDesc(String name);
+
 }
