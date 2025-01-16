@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Página de prueba para restricciones a parámetros</title>
+</head>
+<body>
+<h1>Página de prueba para restricciones a parámetros</h1>
+<p>Se pueden usar las siguientes URL para probar</p>
+<ul>
+    <li><a th:href="@{/mappings-01-restricciones/10}" th:text="@{/mappings-01-restricciones/10}" ></a> URL con parámetro entero</li>
+    <li><a th:href="@{/mappings-01-restricciones/ABCDE}" th:text="@{/mappings-01-restricciones/ABCDE}" ></a> URL con parámetro de tipo texto (solo letras)</li>
+    <li><a th:href="@{/mappings-01-restricciones/ec8ed2a7-03a2-4c85-9a90-0999a465a1e6}" th:text="@{/mappings-01-restricciones/ec8ed2a7-03a2-4c85-9a90-0999a465a1e6}" ></a> URL con parámetro de tipo UUID</li>
+    <li><a th:href="@{/mappings-01-restricciones/OtraCosa22}" th:text="@{/mappings-01-restricciones/OtraCosa22}" ></a> URL con parámetro de tipo texto, con letras y números. Falla porque no hay un método que atienda específicamente ese tipo de datos</li>
+</ul>
+
+<p>Controlador: <span th:text="${controller}"></span></p>
+<p>Método: <span th:text="${method}"></span></p>
+<p>Id recibido: <span th:text="${id}"></span></p>
+</body>
+</html>
