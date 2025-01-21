@@ -43,4 +43,9 @@ public class SportClassServiceImpl implements SportClassService {
 //        return sportClassRepository.findByNameContainingIgnoringCaseOrderByNameDesc(searchString);
         return sportClassRepository.findByNameIgnoringCaseOrderByNameDesc(searchString);
     }
+
+    @Override
+    public List<SportClass> findAll() {
+        return sportClassRepository.findAll();
+    }
 }

@@ -32,4 +32,14 @@ public class TeacherServiceImpl implements TeacherService {
 //        ).toList();
         return teacherRepository.findByFirstNameStartingWithOrLastNameStartingWith (letra,letra);
     }
+
+    @Override
+    public Long countStudentsByTeacherId(Long teacherId) {
+        return teacherRepository.countTeacherStudentsByTeacherId(teacherId);
+    }
+
+    @Override
+    public Long countStudentsByTeacherIdJpql(Long teacherId) {
+        return teacherRepository.countTeacherStudentsByTeacherIdJpql(teacherId);
+    }
 }

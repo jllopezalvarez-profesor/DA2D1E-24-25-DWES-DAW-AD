@@ -20,4 +20,9 @@ public class SportClass {
     @OneToMany(mappedBy = "sportClass", fetch = FetchType.EAGER )
     private List<Teacher> teachers;
 
+    @ManyToMany(mappedBy = "sportClasses")
+    List<Member> members;
+
+
 }
+

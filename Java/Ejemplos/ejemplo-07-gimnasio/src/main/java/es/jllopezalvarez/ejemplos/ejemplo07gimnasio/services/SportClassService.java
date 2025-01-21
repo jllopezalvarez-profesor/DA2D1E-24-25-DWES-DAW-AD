@@ -13,4 +13,6 @@ public interface SportClassService {
     List<SportClass> findByLetterOrderedByNameDesc(String p);
 
     List<SportClass> findByLetterOrderedByNameDescOptimized(String searchString);
+
+    List<SportClass> findAll();
 }

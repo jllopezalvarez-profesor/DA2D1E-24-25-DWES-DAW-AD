@@ -10,4 +10,8 @@ public interface TeacherService {
     List<Teacher> findAll();
 
     List<Teacher> findByInitial(String letra);
+
+    Long countStudentsByTeacherId(Long teacherId);
+
+    Long countStudentsByTeacherIdJpql(Long teacherId);
 }

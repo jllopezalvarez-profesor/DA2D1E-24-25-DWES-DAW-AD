@@ -3,22 +3,31 @@ package es.jllopezalvarez.ejemplos.ejemplo07gimnasio.commandlinerunners;
 import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.entities.SportClass;
 import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.entities.Teacher;
 import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.repositories.SportClassRepository;
+import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.services.MemberService;
 import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.services.SportClassService;
+import es.jllopezalvarez.ejemplos.ejemplo07gimnasio.services.TeacherService;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
 
 @Component
 public class TestCommandLineRunner implements CommandLineRunner {
 
 
     private final SportClassService sportClassService;
+    private final TeacherService teacherService;
+    private final MemberService memberService;
 
-    public TestCommandLineRunner( SportClassService sportClassService) {
+    public TestCommandLineRunner(SportClassService sportClassService, TeacherService teacherService, MemberService memberService) {
         this.sportClassService = sportClassService;
+        this.teacherService = teacherService;
+        this.memberService = memberService;
     }
 
     @Override
@@ -50,5 +59,28 @@ public class TestCommandLineRunner implements CommandLineRunner {
         // Mostrar las clases
         foundClasses.forEach(sc -> System.out.println(sc.getName()));
 
+        System.out.println("Probando la consulta nativa para el profesor con id 1 (SQL)");
+        System.out.println( teacherService.countStudentsByTeacherId(1L) );
+
+        System.out.println("Probando la consulta nativa para el profesor con id 1 (JPQL)");
+        System.out.println( teacherService.countStudentsByTeacherIdJpql(1L) );
+
+        System.out.println("Buscando la edad media de los mayores de 0 años");
+        Optional<Double> edadMedia = memberService.getAvgAgeForOlderThan(0);
+        if (edadMedia.isPresent()) {
+            System.out.println("La edad media es " + edadMedia.orElseThrow());
+        } else {
+            System.out.println("La edad media no se ha encontrada");
+        }
+
+
+
+        System.out.println("Buscando la edad media de los mayores de 00 años");
+        edadMedia = memberService.getAvgAgeForOlderThan(60);
+        if (edadMedia.isPresent()) {
+            System.out.println("La edad media es " + edadMedia.orElseThrow());
+        } else {
+            System.out.println("La edad media no se ha encontrada");
+        }
     }
 }

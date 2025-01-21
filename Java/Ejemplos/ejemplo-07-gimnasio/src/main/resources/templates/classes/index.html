@@ -1,15 +1,13 @@
 <!doctype html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="~{templateFragments :: headPaginasPublicas('Listado de profesores')} "></head>
+<head th:replace="~{templateFragments :: headPaginasPublicas('Listado de clases')} "></head>
 <body>
 <header th:replace="~{templateFragments :: headerPaginasPublicas}"></header>
-
 <main>
-    <h1>Listado de profesores</h1>
-    <div th:insert="~{templateFragments :: '.msg-error'}">Aquí irá el mensaje</div>
+    <h1>Listado de clases</h1>
     <ul th:remove="all-but-first">
-        <li th:each="teacher : ${teachers}"
-            th:text="|${teacher.getFirstName()} ${teacher.getLastName()} - ${teacher.getSportClass().getName()}|">
+        <li th:each="class : ${classes}"
+            th:text="|${class.getName()}|">
             Profesor 1
         </li>
         <li>Profesor 2</li>
