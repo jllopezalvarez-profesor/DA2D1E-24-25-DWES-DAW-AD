@@ -2,6 +2,7 @@ package es.jllopezalvarez.ejemplos.ejemplo07gimnasio.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -27,4 +28,12 @@ public class Member {
             inverseJoinColumns = {@JoinColumn(name = "class_id")}
     )
     private List<SportClass> sportClasses;
+
+    @Column(columnDefinition = "timestamp default current_timestamp()", nullable = false )
+    private LocalDateTime createdAt;
+
+    @Column(columnDefinition = "timestamp default current_timestamp on update current_timestamp()", nullable = false)
+    // Con updatable = false, insertable = false podemos evitar que JPA actualice los valores si se asigna valor en Java
+    private LocalDateTime updatedAt;
+
 }
