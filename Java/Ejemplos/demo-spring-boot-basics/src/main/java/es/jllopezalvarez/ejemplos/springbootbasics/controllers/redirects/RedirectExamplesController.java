@@ -74,7 +74,7 @@ public class RedirectExamplesController {
      * Si los productos pertenecen a varias categorías, la única forma es recibir el ID de la categoría
      */
     @GetMapping("/add-to-cart/from-product-detail/{productId}/{categoryId}")
-    public String addToCartFromCategoryProducts(@PathVariable Integer productId, @PathVariable Integer categoryId) {
+    public String addToCartFromCategoryProducts(@PathVariable Integer productId, @PathVariable String categoryId) {
         // Simulamos añadir al carro con un sout
         System.out.println("En añadir producto desde listado de productos de categoría.");
         System.out.printf("Añadiendo el producto con id %s al carro\n", productId);
