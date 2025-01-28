@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="|Listado de productos de la categoría ${category.name}|">Listado de productos de la categoría  </title>
+</head>
+<body>
+<h1 th:text="|Listado de productos de la categoría ${category.name}|">Listado de productos de la categoría  </h1>
+<p>Esta es la página B, que simula el listado de productos en una categoríaDesde aquí vamos a volver a esta página pasando por un método de controlador.<p>
+    <p>También hay redirecciones desde la página B, que es algo distinta, porque recibe otros parámetros.<p>
+
+    Hay varias opciones:</p>
+<p>Hay varias opciones:</p>
+<ul>
+    <li>Usando un método específico, para tratar las peticiones de añadir producto desde el detalle:
+        <a th:href="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"
+           th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"></a></li>
+    <li>Usando un método que recibe un parámetro @RequestParam para indicar con un código desde donde se hace la
+        petición. En este caso, cuando se haga desde la página de listado de productos por categoría, será necesario
+        pasar el ID de categoría para poder redirigir (en este caso no):
+        <a th:href="@{/redirects/add-to-cart/{productId}(productId=${product.id}, from='PD')}"
+           th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id}, from='PD')}"></a>
+    </li>
+</ul>
+</body>
+</html>
