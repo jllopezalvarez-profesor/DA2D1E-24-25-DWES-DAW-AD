@@ -1,9 +1,11 @@
 package es.lopezalvarezjoseluis.ejemplos.ejemplo08primerserviciorest.controllers;
 
+import es.lopezalvarezjoseluis.ejemplos.ejemplo08primerserviciorest.dto.NewProductDto;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo08primerserviciorest.dto.ProductDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +57,25 @@ public class ProductController {
 
         // Aun no podemos esto, lo haremos con errores que se gestioarán adecuadamente.
         // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha encontrado");
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDto> createProduct(@RequestBody NewProductDto newProductDto) {
+        ProductDto newProduct = createNewProduct(newProductDto);
+        return ResponseEntity.ok(newProduct);
+    }
+
+    private ProductDto createNewProduct(NewProductDto newProductDto) {
+        Long productId = products.keySet().stream().max(Long::compareTo).orElse(0L) + 1;
+        ProductDto newProduct = new ProductDto(productId,
+                newProductDto.getName(),
+                newProductDto.getDescription(),
+                newProductDto.getPrice(),
+                LocalDateTime.now(),
+                LocalDateTime.now());
+
+        products.put(productId, newProduct);
+        return newProduct;
     }
 
 
