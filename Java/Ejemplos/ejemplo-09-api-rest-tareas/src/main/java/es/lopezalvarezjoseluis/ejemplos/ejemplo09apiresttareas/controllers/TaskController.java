@@ -4,14 +4,14 @@ import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.entities.Task;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.services.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping("/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -20,9 +20,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/find/{search}/{pageNumber}/{pageSize}")
-    public ResponseEntity<List<Task>> findTasks(@PathVariable String search, @PathVariable int pageNumber, @PathVariable int pageSize) {
-        return ResponseEntity.ok(taskService.findTasks(search, pageNumber, pageSize) );
+    @GetMapping("")
+    public ResponseEntity<List<Task>> findTasks(@RequestParam String search,
+                                                @RequestParam(defaultValue = "1") int pageNumber,
+                                                @RequestParam(defaultValue = "5") int pageSize) {
+        return ResponseEntity.ok(taskService.findTasks(search, pageNumber, pageSize));
     }
 
 

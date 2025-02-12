@@ -5,6 +5,7 @@ import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.entities.FamilyMe
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.entities.Task;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.entities.TaskAssignment;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.entities.TaskStatus;
+import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.exceptions.TaskAssignmentAlreadyCompletedException;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.repositories.FamilyMemberRepository;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.repositories.TaskAssignmentRepository;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo09apiresttareas.repositories.TaskRepository;
@@ -17,6 +18,9 @@ import java.util.Optional;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
+    public static final int TASK_STATUS_PENDING = 1;
+    public static final int TASK_STATUS_IN_PROGRESS = 2;
+    public static final int TASK_STATUS_COMPLETED = 3;
     private final TaskRepository taskRepository;
     private final FamilyMemberRepository familyMemberRepository;
     private final TaskStatusRepository taskStatusRepository;
@@ -42,7 +46,7 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
             throw new EntityNotFoundException(String.format("No existe el miembro de la familia %d", taskAssignmentDto.getFamilyMemberId()));
         }
         // Buscar el estado para inicializar la asignación. Se puede usar getReferenceById
-        TaskStatus taskStatus =  taskStatusRepository.getReferenceById(1);
+        TaskStatus taskStatus = taskStatusRepository.getReferenceById(1);
 
         // Creamos la asiganción para guardarla
         TaskAssignment newTaskAssignment = new TaskAssignment();
@@ -60,15 +64,17 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
     @Override
     public void CompleteTaskAssignment(Integer taskAssignmentId) {
         // Buscar la asignación. Si no está, lanzar una excepción
-        Optional<TaskAssignment> taskAssignmentOptional  = taskAssignmentRepository.findById(taskAssignmentId);
-        if (taskAssignmentOptional.isEmpty()) {
-            throw new EntityNotFoundException(String.format("No existe la asignación de tarea con id %d", taskAssignmentId));
-        }
-        // Buscar el estado para cambiar la asignación. Se puede usar getReferenceById
-        TaskStatus taskStatus =  taskStatusRepository.getReferenceById(3);
+        TaskAssignment taskAssignment = taskAssignmentRepository
+                .findById(taskAssignmentId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("No existe la asignación de tarea con id %d", taskAssignmentId)));
 
-        // Obtenemos el objeto dentro del optional
-        TaskAssignment taskAssignment = taskAssignmentOptional.orElseThrow();
+        // Compruebo si la tarea está ya terminada
+        if (taskAssignment.getTaskStatus().getTaskStatusId() == TASK_STATUS_COMPLETED) {
+            throw new TaskAssignmentAlreadyCompletedException(String.format("La tarea con id %d ya se había completado", taskAssignmentId));
+        }
+
+        // Buscar el estado para cambiar la asignación. Se puede usar getReferenceById
+        TaskStatus taskStatus = taskStatusRepository.getReferenceById(TASK_STATUS_COMPLETED);
 
         // Modificamos atributos
         taskAssignment.setTaskStatus(taskStatus);
@@ -78,17 +84,31 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
         taskAssignmentRepository.save(taskAssignment);
     }
 
-    @Override
-    public boolean ExistsById(Integer taskAssignmentId) {
-        return taskAssignmentRepository.existsById(taskAssignmentId);
-    }
 
-    @Override
-    public boolean IsCompleted(Integer taskAssignmentId) {
-        Optional<TaskAssignment> taskAssignmentOptional  = taskAssignmentRepository.findById(taskAssignmentId);
+    private void CompleteTaskAssignmentAntiguo(Integer taskAssignmentId) {
+        // Buscar la asignación. Si no está, lanzar una excepción
+        Optional<TaskAssignment> taskAssignmentOptional = taskAssignmentRepository.findById(taskAssignmentId);
         if (taskAssignmentOptional.isEmpty()) {
             throw new EntityNotFoundException(String.format("No existe la asignación de tarea con id %d", taskAssignmentId));
         }
-        return taskAssignmentOptional.orElseThrow().getCompletionDatetime() != null;
+
+        // Buscar el estado para cambiar la asignación. Se puede usar getReferenceById
+        TaskStatus taskStatus = taskStatusRepository.getReferenceById(TASK_STATUS_COMPLETED);
+
+        // Obtenemos el objeto dentro del optional
+        TaskAssignment taskAssignment = taskAssignmentOptional.orElseThrow();
+
+        // Compruebo si la tarea está ya terminada
+        if (taskAssignment.getTaskStatus().getTaskStatusId() == TASK_STATUS_COMPLETED) {
+            throw new TaskAssignmentAlreadyCompletedException(String.format("La tarea con id %d ya se había completado", taskAssignmentId));
+        }
+
+        // Modificamos atributos
+        taskAssignment.setTaskStatus(taskStatus);
+        taskAssignment.setCompletionDatetime(LocalDateTime.now());
+
+        // Guardar la asignación
+        taskAssignmentRepository.save(taskAssignment);
     }
+
 }

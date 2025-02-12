@@ -7,7 +7,5 @@ public interface TaskAssignmentService {
 
     void CompleteTaskAssignment(Integer taskAssignmentId);
 
-    boolean ExistsById(Integer taskAssignmentId);
 
-    boolean IsCompleted(Integer taskAssignmentId);
 }
