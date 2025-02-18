@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{/fragments/fragments :: head('Homepage')}">
+    <title>Shop Homepage - Start Bootstrap Template</title>
+</head>
+<body>
+<!-- Navigation-->
+<nav th:replace="~{/fragments/fragments :: navBar(${categories}, ${cartItemsCount})}"></nav>
+
+<!-- Header-->
+<header th:replace="~{/fragments/fragments :: header}"></header>
+
+
+<!-- Products-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <th:block th:each="product:${products}">
+                <div th:replace="~{/fragments/fragments :: productCard(${product})}"></div>
+            </th:block>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer-->
+<footer th:replace="~{/fragments/fragments :: footer}"></footer>
+
+<!-- JS -->
+<th:block th:replace="~{/fragments/fragments :: scripts}"></th:block>
+
+</body>
+</html>

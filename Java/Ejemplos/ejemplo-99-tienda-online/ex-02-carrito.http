@@ -1,0 +1,34 @@
+@customerId = 1
+
+@textoBusqueda=a
+
+
+
+### Añadir al carrito
+POST http://localhost:8080/api/cart/{{customerId}}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "name": "",
+  "price": 0,
+  "quantity": 0,
+  "totalPrice": 0
+}
+
+
+### Listado de productos paginado - Primera página, de 2
+GET http://localhost:8080/api/products/0/2
+
+### Listado de productos paginado - Segunda página, de 2
+GET http://localhost:8080/api/products/1/2
+
+### Búsqueda de productos - Primera página - de 4
+GET http://localhost:8080/api/products/search/{{textoBusqueda}}/0/4
+
+### Búsqueda de productos - Primera página - de 2
+GET http://localhost:8080/api/products/search/{{textoBusqueda}}/0/2
+
+### Búsqueda de productos - Primera página - de 4
+GET http://localhost:8080/api/products/search/{{textoBusqueda}}/1/2
+
