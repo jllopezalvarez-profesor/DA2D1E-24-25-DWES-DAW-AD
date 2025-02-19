@@ -1,0 +1,25 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear una nueva categoría</title>
+</head>
+<body>
+<h1>Crear una nueva categoría</h1>
+<form method="post" th:object="${category}">
+    <div>
+        <label for="txt-nombre">Nombre de la categoría</label>
+    </div>
+    <div>
+        <input type="text" id="txt-nombre" th:field="*{name}" >
+    </div>
+    <div>
+        <label for="txt-descripcion">Nombre de la categoría</label>
+    </div>
+    <div>
+        <textarea id="txt-descripcion" th:field="*{description}" ></textarea>
+    </div>
+    <button type="submit">Aceptar</button>
+</form>
+</body>
+</html>
