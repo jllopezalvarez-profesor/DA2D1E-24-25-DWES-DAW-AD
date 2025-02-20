@@ -1,93 +1,102 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Página de prueba para comodines en mappings</title>
+<head th:replace="~{fragments/fragments :: head('Página de prueba para comodines en mappings')}">
+    <title>Ejemplos Spring Boot</title>
 </head>
 <body>
-<h1>Página de prueba para comodines en mappings</h1>
-<p>Se pueden usar las siguientes URL para probar</p>
-<ul>
-    <li>
-        <p> Url para cargar esta página "vacía", sin recibir nada por URL:</p>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Página de prueba para comodines en mappings</h2>
+
+        <p>Se pueden usar las siguientes URL para probar</p>
         <ul>
-            <li><a th:href="@{/mappings-02-wildcards}"
-                   th:text="@{/mappings-02-wildcards}"></a> Url "vacía", sin valores en el path
+            <li>
+                Url para cargar esta página "vacía", sin recibir nada por URL:
+                <ul>
+                    <li><a th:href="@{/mappings-02-wildcards}"
+                           th:text="@{/mappings-02-wildcards}"></a> Url "vacía", sin valores en el path
+                    </li>
+                </ul>
             </li>
+            <li>
+                Con un único comodín, colocado entre "primero" y "tercero", y una variable tras el tercer segmento.
+                La ruta en la definición del mapping es "/primero/*/tercero/{var}". Ejemplos de URL que cumplen la ruta:
+                <ul>
+                    <li><a th:href="@{/mappings-02-wildcards/primero/lo-que-sea/tercero/valor-variable}"
+                           th:text="@{/mappings-02-wildcards/primero/lo-que-sea/tercero/valor-variable}"></a> En el *
+                        estamos
+                        colocando "lo-que-sea"
+                    </li>
+
+                    <li><a th:href="@{/mappings-02-wildcards/primero/otra-cosa/tercero/valor-variable}"
+                           th:text="@{/mappings-02-wildcards/primero/otra-cosa/tercero/valor-variable}"></a> En el *
+                        estamos
+                        colocando "otra-cosa"
+                    </li>
+
+                </ul>
+
+            </li>
+            <li>
+                Con múltiples comodines, colocados entre "primero" y "tercero", y una variable tras el último (más
+                bien penúltimo) segmento. La ruta en la definición del mapping es "/primero/**/tercero/{var}".
+                Esto no funciona porque después de ** no se puede poner nada más. Está diseñado para el "final" de
+                la ruta. Ejemplos de URL que cumplirían la ruta, si fuera posible:
+                <ul>
+                    <li><a th:href="@{/mappings-02-wildcards/primero/lo-que-sea/otra-cosa/tercero/valor-variable}"
+                           th:text="@{/mappings-02-wildcards/primero/lo-que-sea/otra-cosa/tercero/valor-variable}"></a>
+                    </li>
+                </ul>
+
+            </li>
+            <li>
+                Con el comodín para múltiples segmentos (**) al final de la URL. Útil para añadir, por ejemplo,
+                el título de una noticia o el nombre de un producto en la URL, lo que, teóricamente, mejor el SEO.
+                La ruta en la definición del mapping es "/algo/otra-cosa/{id}/**".
+                Ejemplos de URL con esta ruta:
+                <ul>
+                    <li><a th:href="@{/mappings-02-wildcards/algo/otra-cosa/100/titulo-de-la-noticia}"
+                           th:text="@{/mappings-02-wildcards/algo/otra-cosa/100/titulo-de-la-noticia}"></a>
+                        En este se podría haber usado un solo *, porque solo hay uno al final
+                        que no se "captura" de alguna forma
+                    </li>
+                    <li>
+                        <a th:href="@{/mappings-02-wildcards/algo/otra-cosa/300/nombre-producto/categoría-del-producto/precio }"
+                           th:text="@{/mappings-02-wildcards/algo/otra-cosa/300/nombre-producto/categoría-del-producto/precio}"></a>
+                        Este tiene varios segmentos al final. No hubiera servido solo "*".
+                        Con "**" se pueden poner varios segmentos al final
+                    </li>
+                </ul>
+
+            </li>
+
+            <li>
+                Con el comodín * dentro de una variable "@PathVariable". Esto permite
+                    "capturar" el resto de la URL. La ruta en la definición del mapping es
+                    "/algo/otra-cosa/{**pathRestante}".
+                    Ejemplos de URL con esta ruta:
+                <ul>
+                    <li><a th:href="@{/mappings-02-wildcards/algo/algo-distinto/titulo-de-la-noticia}"
+                           th:text="@{/mappings-02-wildcards/algo/algo-distinto/titulo-de-la-noticia}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/mappings-02-wildcards/algo/algo-distinto/nombre-producto/categoría-del-producto/precio }"
+                           th:text="@{/mappings-02-wildcards/algo/algo-distinto/nombre-producto/categoría-del-producto/precio}"></a>
+                    </li>
+                </ul>
+
+            </li>
+
         </ul>
-    </li>
-    <li>
-        <p>Con un único comodín, colocado entre "primero" y "tercero", y una variable tras el tercer segmento. La ruta
-            en la definición del mapping es "/primero/*/tercero/{var}". Ejemplos de URL que cumplen la ruta:</p>
-        <ul>
-            <li><a th:href="@{/mappings-02-wildcards/primero/lo-que-sea/tercero/valor-variable}"
-                   th:text="@{/mappings-02-wildcards/primero/lo-que-sea/tercero/valor-variable}"></a> En el * estamos
-                colocando "lo-que-sea"
-            </li>
 
-            <li><a th:href="@{/mappings-02-wildcards/primero/otra-cosa/tercero/valor-variable}"
-                   th:text="@{/mappings-02-wildcards/primero/otra-cosa/tercero/valor-variable}"></a> En el * estamos
-                colocando "otra-cosa"
-            </li>
-
-        </ul>
-
-    </li>
-    <li>
-        <p>Con múltiples comodines, colocados entre "primero" y "tercero", y una variable tras el último (más bien
-            penúltimo) segmento. La ruta en la definición del mapping es "/primero/**/tercero/{var}".
-            Esto no funciona porque después de ** no se puede poner nada más. Está diseñado para el "final" de la ruta.
-            Ejemplos de URL que cumplirían la ruta, si fuera posible:</p>
-        <ul>
-            <li><a th:href="@{/mappings-02-wildcards/primero/lo-que-sea/otra-cosa/tercero/valor-variable}"
-                   th:text="@{/mappings-02-wildcards/primero/lo-que-sea/otra-cosa/tercero/valor-variable}"></a>
-            </li>
-        </ul>
-
-    </li>
-    <li>
-        <p>Con el comodín para múltiples segmentos (**) al final de la URL. Útil para añadir, por ejemplo,
-            el título de una noticia o el nombre de un producto en la URL, lo que, teóricamente, mejor el SEO.
-            La ruta en la definición del mapping es "/algo/otra-cosa/{id}/**".
-            Ejemplos de URL con esta ruta:</p>
-        <ul>
-            <li><a th:href="@{/mappings-02-wildcards/algo/otra-cosa/100/titulo-de-la-noticia}"
-                   th:text="@{/mappings-02-wildcards/algo/otra-cosa/100/titulo-de-la-noticia}"></a>
-                En este se podría haber usado un solo *, porque solo hay uno al final
-                que no se "captura" de alguna forma
-            </li>
-            <li><a th:href="@{/mappings-02-wildcards/algo/otra-cosa/300/nombre-producto/categoría-del-producto/precio }"
-                   th:text="@{/mappings-02-wildcards/algo/otra-cosa/300/nombre-producto/categoría-del-producto/precio}"></a>
-                Este tiene varios segmentos al final. No hubiera servido solo "*".
-                Con "**" se pueden poner varios segmentos al final
-            </li>
-        </ul>
-
-    </li>
-
-    <li>
-        <p>Con el comodín * dentro de una variable "@PathVariable". Esto permite
-            "capturar" el resto de la URL. La ruta en la definición del mapping es "/algo/otra-cosa/{**pathRestante}".
-            Ejemplos de URL con esta ruta:</p>
-        <ul>
-            <li><a th:href="@{/mappings-02-wildcards/algo/algo-distinto/titulo-de-la-noticia}"
-                   th:text="@{/mappings-02-wildcards/algo/algo-distinto/titulo-de-la-noticia}"></a>
-            </li>
-            <li><a th:href="@{/mappings-02-wildcards/algo/algo-distinto/nombre-producto/categoría-del-producto/precio }"
-                   th:text="@{/mappings-02-wildcards/algo/algo-distinto/nombre-producto/categoría-del-producto/precio}"></a>
-            </li>
-        </ul>
-
-    </li>
-
-</ul>
-
-<p>Controlador: <span th:text="${controller}"></span></p>
-<p>Método: <span th:text="${method}"></span></p>
-<p th:if="${variable}">Variable recibida en la URL: <span th:text="${variable}"></span></p>
-<p th:if="${pathRestante}">Path capturado: <span th:text="${pathRestante}"></span></p>
+        <p>Controlador: <span th:text="${controller}"></span></p>
+        <p>Método: <span th:text="${method}"></span></p>
+        <p th:if="${variable}">Variable recibida en la URL: <span th:text="${variable}"></span></p>
+        <p th:if="${pathRestante}">Path capturado: <span th:text="${pathRestante}"></span></p>
+    </div>
+</div>
 </body>
 </html>

@@ -5,8 +5,9 @@
 </head>
 <body>
 <div class="container">
-    <header th:replace="~{fragments/fragments :: header('Formulario simple')}"></header>
+    <header th:replace="~{fragments/fragments :: header}"></header>
     <div class="container">
+        <h2>Formulario simple</h2>
         <form th:method="post" th:object="${person}">
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI</label>

@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Prueba de redirecciones</title>
+<head th:replace="~{fragments/fragments :: head('Ejemplos de redirecciones')}">
+    <title>Ejemplos Spring Boot</title>
 </head>
 <body>
-<h1>Prueba de redirecciones</h1>
-<p>Desde esta página se puede acceder a dos páginas distintas:</p>
-<ul>
-    <li>Página que simula el detalle de un producto. Recibe el id del producto como @PathVariable: <a
-            th:href="@{/redirects/product-detail/{productId}(productId=100)}">Detalle del producto con id 100</a></li>
-    <li>Página que simula el listado de productos de una categoría. Recibe el id de categoría como @PathVariable: <a
-            th:href="@{/redirects/category-list/{categoryId}(categoryId='INF')}">Listado de la categoría con id 'INF'</a>
-    </li>
-</ul>
-<p>En estas páginas hay enlaces para llamar a un método de controlador para añadir el producto a carro de compra, y
-    volver a la misma página.</p>
-<p>Habrá enlaces de distinto tipo, para ver distintas formas de redirigir</p>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Prueba de redirecciones</h2>
+
+        <p>Desde esta página se puede acceder a dos páginas distintas:</p>
+        <ul>
+            <li>Página que simula el detalle de un producto. Recibe el id del producto como @PathVariable: <a
+                    th:href="@{/redirects/product-detail/{productId}(productId=100)}">Detalle del producto con id
+                100</a></li>
+            <li>Página que simula el listado de productos de una categoría. Recibe el id de categoría como
+                @PathVariable: <a
+                        th:href="@{/redirects/category-list/{categoryId}(categoryId='INF')}">Listado de la categoría con
+                    id 'INF'</a>
+            </li>
+        </ul>
+        <p>En estas páginas hay enlaces para llamar a un método de controlador para añadir el producto a carro de
+            compra, y
+            volver a la misma página.</p>
+        <p>Habrá enlaces de distinto tipo, para ver distintas formas de redirigir</p>
+    </div>
+</div>
 </body>
 </html>

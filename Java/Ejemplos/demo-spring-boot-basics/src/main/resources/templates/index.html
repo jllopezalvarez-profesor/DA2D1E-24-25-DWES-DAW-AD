@@ -6,7 +6,7 @@
 <body>
 <div class="container">
 
-    <header th:replace="~{fragments/fragments :: header('Ejemplos Spring Boot')}"></header>
+    <header th:replace="~{fragments/fragments :: header}"></header>
     <div class="container">
 
         <h2>Ejemplos relacionados con mappings</h2>
@@ -25,28 +25,42 @@
         <h2>Ejemplos relacionados con formularios</h2>
         <ul>
             <li>
-                <a th:href="@{/forms/simple}">Ejemplo de formulario con campos de texto.</a></li>
+                <a th:href="@{/forms/simple}">Ejemplo de formulario con campos de texto. Inicialmente vacío.</a></li>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto, con valores iniciales (pendiente).</a></li>
+                <a th:href="@{/forms/simple/con-datos}">Ejemplo de formulario con campos de texto. Con valores
+                    iniciales.</a></li>
             <li>
-                <a th:href="@{/forms/select}">Ejemplo de formulario con campos de texto y un select.</a></li>
+                <a th:href="@{/forms/select}">Ejemplo de formulario con campos de texto y un select. Inicialmente
+                    vacío.</a></li>
             <li>
-                <a th:href="@{/forms/select/con-datos}">Ejemplo de formulario con campos de texto y un select, con valores iniciales.</a></li>
+                <a th:href="@{/forms/select/con-datos}">Ejemplo de formulario con campos de texto y un select. Con
+                    valores iniciales.</a></li>
             <li>
-                <a th:href="@{/forms/radio}">Ejemplo de formulario con campos de texto y radio buttons.</a></li>
+                <a th:href="@{/forms/radio}">Ejemplo de formulario con campos de texto y radio buttons. Inicialmente
+                    vacío.</a></li>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y radio buttons, con valores iniciales (pendiente).</a></li>
+                <a th:href="@{/forms/radio/con-datos}">Ejemplo de formulario con campos de texto y radio buttons. Con
+                    valores iniciales.</a></li>
             <li>
-                <a th:href="@{/forms/checkbox}">Ejemplo de formulario con campos de texto y checkboxes.</a></li>
+                <a th:href="@{/forms/checkbox}">Ejemplo de formulario con campos de texto y checkboxes. Inicialmente
+                    vacío.</a></li>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y checkboxes, con valores iniciales (pendiente).</a></li>
+                <a th:href="@{/forms/checkbox/con-datos}">Ejemplo de formulario con campos de texto y checkboxes. Con
+                    valores iniciales.</a></li>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y fechas, horas, y fechas/horas, con valores iniciales
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y fechas, horas, y fechas/horas.
+                    Inicialmente vacío (pendiente).</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y fechas, horas, y fechas/horas. Con valores
+                    iniciales (pendiente).</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos ocultos. Con valores iniciales
                     (pendiente).</a></li>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos ocultos, con valores iniciales (pendiente).</a></li>
-            <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos de fichero (pendiente).</a></li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos de fichero (pendiente).</a>
+                <small class="fs-6">Por seguridad, los campos file no pueden tener valor inicial para que
+                    no se pueda acceder a ficheros del cliente sin su intervención.</small>
+            </li>
         </ul>
     </div>
 

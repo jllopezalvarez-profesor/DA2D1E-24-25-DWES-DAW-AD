@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="|Pruebas de redirección - Detalle de producto (${product.id})|">Pruebas de redirección - Detalle de
-        producto</title>
+<head th:replace="~{fragments/fragments :: head(|Pruebas de redirección - Detalle de producto (${product.id})|)}">
+    <title>Ejemplos Spring Boot</title>
 </head>
 <body>
-<h1 th:text="|Pruebas de redirección - Detalle de producto (${product.id})|">Pruebas de redirección - Detalle de
-    producto</h1>
-<p>Esta página simula el detalle de un producto</p>
-<p>Desde aquí vamos a llamar a métodos de controlador que volverán a esta misma página usando redirección.</p>
-<p>En la consola del entorno de desarrollo se verán trazas indicando las operaciones realizadas en los métodos de
-    controlador</p>
-<p>Hay varias opciones:</p>
-<ul>
-    <li>Usando un método específico, para tratar las peticiones de añadir producto desde el detalle:
-        <a th:href="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"
-           th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"></a>
-    </li>
-    <li>Usando un método que recibe un parámetro @RequestParam para indicar con un código desde donde se hace la
-        petición. En este caso, cuando se haga desde la página de listado de productos por categoría, será necesario
-        pasar el ID de categoría para poder redirigir (en este caso no):
-        <a th:href="@{/redirects/add-to-cart/{productId}(productId=${product.id}, from='PD')}"
-           th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id}, from='PD')}"></a>
-    </li>
-    <li>Usando un método que recibe un parámetro @RequestParam para indicar con la url desde la que se hace la
-        petición. En este caso, no es necesario añadir parámetros porque ya estarán en la URL de origen:
-        <a th:href="@{/redirects/add-to-cart/{productId}(productId=${product.id}, returnurl=${currentUrl})}"
-           th:text="@{/redirects/add-to-cart/{productId}(productId=${product.id}, returnurl=${currentUrl})}"></a>
-    </li>
-</ul>
+<div class="container">
 
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2 th:text="|Pruebas de redirección - Detalle de producto (${product.id})|">Pruebas de redirección - Detalle de
+            producto</h2>
+
+        <p>Esta página simula el detalle de un producto</p>
+        <p>Desde aquí vamos a llamar a métodos de controlador que volverán a esta misma página usando redirección.</p>
+        <p>En la consola del entorno de desarrollo se verán trazas indicando las operaciones realizadas en los métodos
+            de
+            controlador</p>
+        <p>Hay varias opciones:</p>
+        <ul>
+            <li>Usando un método específico, para tratar las peticiones de añadir producto desde el detalle:
+                <a th:href="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"
+                   th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id})}"></a>
+            </li>
+            <li>Usando un método que recibe un parámetro @RequestParam para indicar con un código desde donde se hace la
+                petición. En este caso, cuando se haga desde la página de listado de productos por categoría, será
+                necesario
+                pasar el ID de categoría para poder redirigir (en este caso no):
+                <a th:href="@{/redirects/add-to-cart/{productId}(productId=${product.id}, from='PD')}"
+                   th:text="@{/redirects/add-to-cart/from-product-detail/{productId}(productId=${product.id}, from='PD')}"></a>
+            </li>
+            <li>Usando un método que recibe un parámetro @RequestParam para indicar con la url desde la que se hace la
+                petición. En este caso, no es necesario añadir parámetros porque ya estarán en la URL de origen:
+                <a th:href="@{/redirects/add-to-cart/{productId}(productId=${product.id}, returnurl=${currentUrl})}"
+                   th:text="@{/redirects/add-to-cart/{productId}(productId=${product.id}, returnurl=${currentUrl})}"></a>
+            </li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>

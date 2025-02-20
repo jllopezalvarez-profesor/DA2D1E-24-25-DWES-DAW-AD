@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="~{fragments/fragments :: head('Formulario con select')}">
+<head th:replace="~{fragments/fragments :: head('Formulario con radio')}">
     <title>Formulario simple</title>
 </head>
 <body>
 <div class="container">
-    <header th:replace="~{fragments/fragments :: header('Formulario con select')}"></header>
+    <header th:replace="~{fragments/fragments :: header}"></header>
     <div class="container">
+        <h2>Formulario con radio</h2>
         <form th:method="post" th:object="${person}">
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI</label>
