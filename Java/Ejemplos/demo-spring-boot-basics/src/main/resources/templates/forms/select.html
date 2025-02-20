@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Formulario con select')}">
+    <title>Formulario simple</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="~{fragments/fragments :: header('Formulario con select')}"></header>
+    <div class="container">
+        <form th:method="post" th:object="${person}">
+            <div class="mb-3">
+                <label for="dni" class="form-label">DNI</label>
+                <input type="text" class="form-control" id="dni" th:field="*{dni}">
+            </div>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="first-name" th:field="*{firstName}">
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="last-name" th:field="*{lastName}">
+            </div>
+            <div class="mb-3">
+                <label for="age-range" class="form-label">Edad</label>
+                <select class="form-select" id="age-range" th:field="*{ageRangeId}">
+                    <option selected value="">Seleccione edad...</option>
+                    <option th:each="ageRange : ${ageRanges}" th:value="${ageRange.ageRangeId}" th:text="${ageRange.asString()}">Opción</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>

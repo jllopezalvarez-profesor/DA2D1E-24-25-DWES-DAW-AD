@@ -1,8 +1,8 @@
 package es.jllopezalvarez.ejemplos.springbootbasics.controllers.redirects;
 
 
-import es.jllopezalvarez.ejemplos.springbootbasics.models.redirects.Category;
-import es.jllopezalvarez.ejemplos.springbootbasics.models.redirects.Product;
+import es.jllopezalvarez.ejemplos.springbootbasics.models.common.Category;
+import es.jllopezalvarez.ejemplos.springbootbasics.models.common.Product;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +64,7 @@ public class RedirectExamplesController {
         // Simulamos añadir al carro con un sout
         System.out.println("En añadir producto desde detalle de producto.");
         System.out.printf("Añadiendo el producto con id %s al carro\n", productId);
-        return "redirect:/redirects/product-detail/" + productId;
+        return "redirect:/common/product-detail/" + productId;
     }
 
     /*
@@ -78,7 +78,7 @@ public class RedirectExamplesController {
         // Simulamos añadir al carro con un sout
         System.out.println("En añadir producto desde listado de productos de categoría.");
         System.out.printf("Añadiendo el producto con id %s al carro\n", productId);
-        return "redirect:/redirects/category-list/" + categoryId;
+        return "redirect:/common/category-list/" + categoryId;
 
     }
 
@@ -99,12 +99,12 @@ public class RedirectExamplesController {
         System.out.printf("Añadiendo el producto con id %s al carro\n", productId);
         // En función del parámetro (CL / PD), se redirige a una u otra URL)
         if (from.equalsIgnoreCase("PD")) {
-            return "redirect:/redirects/product-detail/" + productId;
+            return "redirect:/common/product-detail/" + productId;
         } else if (from.equalsIgnoreCase("CL")) {
             if (categoryId == null) {
                 throw new IllegalArgumentException("La categoria no puede ser nula");
             }
-            return "redirect:/redirects/category-list/" + categoryId;
+            return "redirect:/common/category-list/" + categoryId;
         } else {
             throw new IllegalArgumentException("El origen no es valido");
         }

@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<head th:replace="~{fragments/fragments :: head('Ejemplos Spring Boot')}">
     <title>Ejemplos Spring Boot</title>
 </head>
 <body>
-<h1>Ejemplos Spring Boot</h1>
-<p>Ejemplos relacionados con mappings</p>
-<ul>
-    <li><a th:href="@{/mappings-01-restricciones}">Ejemplos de restricciones en mappings. Por cabecera, por expresión
-        regular, etc.</a></li>
-    <li><a th:href="@{/mappings-02-wildcards}">Ejemplos de uso de comodines (wildcards) en rutas. Uso de *, **, y
-        {*variable}</a></li>
-</ul>
-<p>Ejemplos relacionados con redirecciones</p>
-<ul>
-    <li>
-        <a th:href="@{/redirects}">Ejemplos de redirecciones usando "redirect:"</a>
-    </li>
-</ul>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header('Ejemplos Spring Boot')}"></header>
+    <div class="container">
+
+        <h2>Ejemplos relacionados con mappings</h2>
+        <ul>
+            <li><a th:href="@{/mappings-01-restricciones}">Ejemplos de restricciones en mappings. Por cabecera, por
+                expresión regular, etc.</a></li>
+            <li><a th:href="@{/mappings-02-wildcards}">Ejemplos de uso de comodines (wildcards) en rutas. Uso de *, **,
+                y {*variable}</a></li>
+        </ul>
+        <h2>Ejemplos relacionados con redirecciones</h2>
+        <ul>
+            <li>
+                <a th:href="@{/redirects}">Ejemplos de redirecciones usando "redirect:"</a>
+            </li>
+        </ul>
+        <h2>Ejemplos relacionados con formularios</h2>
+        <ul>
+            <li>
+                <a th:href="@{/forms/simple}">Ejemplo de formulario con campos de texto.</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto, con valores iniciales (pendiente).</a></li>
+            <li>
+                <a th:href="@{/forms/select}">Ejemplo de formulario con campos de texto y un select.</a></li>
+            <li>
+                <a th:href="@{/forms/select/con-datos}">Ejemplo de formulario con campos de texto y un select, con valores iniciales.</a></li>
+            <li>
+                <a th:href="@{/forms/radio}">Ejemplo de formulario con campos de texto y radio buttons.</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y radio buttons, con valores iniciales (pendiente).</a></li>
+            <li>
+                <a th:href="@{/forms/checkbox}">Ejemplo de formulario con campos de texto y checkboxes.</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y checkboxes, con valores iniciales (pendiente).</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y fechas, horas, y fechas/horas, con valores iniciales
+                    (pendiente).</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos ocultos, con valores iniciales (pendiente).</a></li>
+            <li>
+                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos de fichero (pendiente).</a></li>
+        </ul>
+    </div>
+
+</div>
+
+
 </body>
 </html>

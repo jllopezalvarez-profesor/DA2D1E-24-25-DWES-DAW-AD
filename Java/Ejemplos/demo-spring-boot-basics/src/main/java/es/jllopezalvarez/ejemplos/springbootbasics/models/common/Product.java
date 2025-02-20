@@ -1,4 +1,4 @@
-package es.jllopezalvarez.ejemplos.springbootbasics.models.redirects;
+package es.jllopezalvarez.ejemplos.springbootbasics.models.common;
 
 public class Product {
     private final Integer id;

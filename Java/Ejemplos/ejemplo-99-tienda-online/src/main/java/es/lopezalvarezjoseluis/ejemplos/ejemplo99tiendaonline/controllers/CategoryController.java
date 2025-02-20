@@ -29,10 +29,10 @@ public class CategoryController {
 
     // Procesar el post del formulario
     @PostMapping("/new")
-    public ModelAndView newCategory(@ModelAttribute CreateCategoryDto categoryDto) {
+    public ModelAndView newCategory(@ModelAttribute reateCategoryDto categoryDto) {
         categoryService.create(categoryDto.getName(), categoryDto.getDescription());
         return new ModelAndView("admin/categories/new", "category", categoryDto);
-    }
+    }C
 
 
 }
