@@ -9,4 +9,6 @@ public interface CategoryService {
     List<Category> findAll();
 
     Optional<Category> findById(Long categoryId);
+
+    void create(String name, String description);
 }

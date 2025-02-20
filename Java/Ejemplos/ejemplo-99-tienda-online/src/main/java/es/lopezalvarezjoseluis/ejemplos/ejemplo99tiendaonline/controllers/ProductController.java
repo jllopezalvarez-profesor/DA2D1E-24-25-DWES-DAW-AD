@@ -1,5 +1,6 @@
 package es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.controllers;
 
+import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.CartItemService;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.CategoryService;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.ProductService;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.ProductServiceImpl;
@@ -15,8 +16,8 @@ public class ProductController extends BaseController {
 
     private final ProductService productService;
 
-    public ProductController(CategoryService categoryService, ProductService productService) {
-        super(categoryService);
+    public ProductController(CategoryService categoryService, ProductService productService, CartItemService cartItemService) {
+        super(categoryService, cartItemService);
         this.productService = productService;
     }
 

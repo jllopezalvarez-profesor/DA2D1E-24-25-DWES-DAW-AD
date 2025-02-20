@@ -19,7 +19,7 @@
 
 <body>
 <!-- Navigation-->
-<nav th:fragment="navBar(categories, cartItemsCount)" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:fragment="navBar(categories, cart)" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" th:href="@{/}">The Cool Grocery Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -47,7 +47,7 @@
                 <a class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span th:text="${cartItemsCount}" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span th:text="${cart.getProductCount()}" class="badge bg-dark text-white ms-1 rounded-pill" id="product-count-badge">0</span>
                 </a>
             </form>
         </div>

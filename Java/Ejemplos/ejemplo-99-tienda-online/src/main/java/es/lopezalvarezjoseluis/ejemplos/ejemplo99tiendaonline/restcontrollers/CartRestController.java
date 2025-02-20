@@ -1,6 +1,7 @@
 package es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.restcontrollers;
 
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.dto.AddToCartDto;
+import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.dto.CartDto;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.CartItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,8 @@ public class CartRestController {
     }
 
     @PostMapping
-    ResponseEntity<String> addToCart(@RequestBody AddToCartDto addToCartDto) {
-        cartItemService.addProduct(addToCartDto.getProductId(), addToCartDto.getQuantity());
-        return ResponseEntity.ok("Todo bien");
-
+    ResponseEntity<CartDto> addToCart(@RequestBody AddToCartDto addToCartDto) {
+        return ResponseEntity.ok(new CartDto(cartItemService.addProduct(addToCartDto.getProductId(), addToCartDto.getQuantity())));
     }
 
 }

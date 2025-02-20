@@ -10,4 +10,6 @@ public interface CartItemService {
     List<CartItem> findAll();
 
     List<CartItem> addProduct(Long productId, Integer quantity);
+
+    Integer getQuantitySum();
 }

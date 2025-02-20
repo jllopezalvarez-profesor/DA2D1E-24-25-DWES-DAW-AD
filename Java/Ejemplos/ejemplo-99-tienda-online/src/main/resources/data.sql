@@ -140,3 +140,6 @@ UPDATE product SET seller_id = 2 where product_id = 12;
 UPDATE product SET seller_id = 5 where product_id = 13;
 UPDATE product SET seller_id = 5 where product_id = 14;
 UPDATE product SET seller_id = 5 where product_id = 15;
+
+
+alter table category alter column category_id restart with 100

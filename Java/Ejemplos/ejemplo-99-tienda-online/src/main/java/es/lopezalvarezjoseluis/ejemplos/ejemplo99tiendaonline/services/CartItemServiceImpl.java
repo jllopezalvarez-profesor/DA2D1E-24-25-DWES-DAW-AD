@@ -43,6 +43,11 @@ public class CartItemServiceImpl implements CartItemService {
         return cartItemRepository.findAll();
     }
 
+    @Override
+    public Integer getQuantitySum() {
+        return cartItemRepository.quantitySum();
+    }
+
     private void addNewProduct(Long productId, Integer quantity) {
         Product product = productRepository
                 .findById(productId)

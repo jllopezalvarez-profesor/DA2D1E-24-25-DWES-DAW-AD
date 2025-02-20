@@ -1,6 +1,7 @@
 package es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.controllers;
 
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.dto.CreateCategoryDto;
+import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/categories")
 public class CategoryController {
+
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     // Muestra el formulario de crear categoría
     @GetMapping("/new")
@@ -23,9 +30,7 @@ public class CategoryController {
     // Procesar el post del formulario
     @PostMapping("/new")
     public ModelAndView newCategory(@ModelAttribute CreateCategoryDto categoryDto) {
-
-        System.out.println("Procesando la petición de nueva categoría");
-        System.out.println(categoryDto);
+        categoryService.create(categoryDto.getName(), categoryDto.getDescription());
         return new ModelAndView("admin/categories/new", "category", categoryDto);
     }
 
