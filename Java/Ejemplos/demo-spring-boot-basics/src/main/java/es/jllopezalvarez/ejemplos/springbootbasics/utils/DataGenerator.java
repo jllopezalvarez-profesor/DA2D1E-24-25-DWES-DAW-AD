@@ -1,5 +1,6 @@
 package es.jllopezalvarez.ejemplos.springbootbasics.utils;
 
+import es.jllopezalvarez.ejemplos.springbootbasics.dto.DateAndTimeFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.MultipleOptionFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.OptionFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.SimpleFormDto;
@@ -8,6 +9,9 @@ import es.jllopezalvarez.ejemplos.springbootbasics.models.common.Hobby;
 import net.datafaker.Faker;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
@@ -83,6 +87,17 @@ public class DataGenerator {
         multipleOptionFormDto.setLastName(faker.name().lastName());
         multipleOptionFormDto.setHobbiesIds(getRandomHobbyIds());
         return multipleOptionFormDto;
+    }
+
+    public DateAndTimeFormDto createFakeDateAndTimeFormDto() {
+        DateAndTimeFormDto dateAndTimeFormDto = new DateAndTimeFormDto();
+        dateAndTimeFormDto.setDni(faker.idNumber().valid());
+        dateAndTimeFormDto.setFirstName(faker.name().firstName());
+        dateAndTimeFormDto.setLastName(faker.name().lastName());
+        dateAndTimeFormDto.setBirthDate(LocalDate.now());
+        dateAndTimeFormDto.setGoToBedTime(LocalTime.now());
+        dateAndTimeFormDto.setNextTestDatetime(LocalDateTime.now());
+        return dateAndTimeFormDto;
     }
 
 }

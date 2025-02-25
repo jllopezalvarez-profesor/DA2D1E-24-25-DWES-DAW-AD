@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Formulario básico')}">
+    <title>Formulario básico</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+        <h2>Formulario simple</h2>
+        <form th:method="post">
+            <div class="mb-3">
+                <label for="dni" class="form-label">DNI</label>
+                <input type="text" class="form-control" id="dni" th:name="dni" th:value="${dni}">
+            </div>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="first-name" th:name="firstName" th:value="${firstName}">
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="last-name" th:name="lastName" th:value="${lastName}">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,15 +1,13 @@
 package es.jllopezalvarez.ejemplos.springbootbasics.controllers.forms;
 
+import es.jllopezalvarez.ejemplos.springbootbasics.dto.DateAndTimeFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.MultipleOptionFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.OptionFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.SimpleFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.utils.DataGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/forms")
@@ -20,6 +18,24 @@ public class FormsController {
     public FormsController(DataGenerator dataGenerator) {
         this.dataGenerator = dataGenerator;
     }
+
+
+    @GetMapping("/basic")
+    public String basicForm() {
+        return "forms/basic";
+    }
+
+    @PostMapping("/basic")
+    public String basicForm(@RequestParam(name = "dni") String documentNumber,
+                            @RequestParam(name = "firstName") String userFirstName,
+                            @RequestParam(name = "lastName") String userLastName, Model model) {
+        System.out.printf("Datos recibidos: %s - %s %s\n", documentNumber, userFirstName, userLastName);
+        model.addAttribute("dni", documentNumber);
+        model.addAttribute("firstName", userFirstName);
+        model.addAttribute("lastName", userLastName);
+        return "forms/basic";
+    }
+
 
     @GetMapping("/simple")
     public String simpleFormGet(Model model) {
@@ -121,5 +137,25 @@ public class FormsController {
         return "forms/checkbox";
     }
 
+    @GetMapping("/date-time")
+    public String dateTimeFormGet(Model model) {
+        model.addAttribute("person", new DateAndTimeFormDto());
+        return "forms/date-form";
+    }
 
+    @GetMapping("/date-time/con-datos")
+    public String dateTimeConDatosFormGet(Model model) {
+        model.addAttribute("person", dataGenerator.createFakeDateAndTimeFormDto());
+        return "forms/date-form";
+    }
+
+
+    @PostMapping({"/date-time", "/date-time/con-datos"})
+    public String dateTimeFormPost(@ModelAttribute DateAndTimeFormDto dateAndTimeFormDto, Model model) {
+        System.out.println("Recibido post de formulario /forms/date-time");
+        System.out.println("Datos recibidos:");
+        System.out.println(dateAndTimeFormDto);
+        model.addAttribute("person", dateAndTimeFormDto);
+        return "forms/date-form";
+    }
 }
