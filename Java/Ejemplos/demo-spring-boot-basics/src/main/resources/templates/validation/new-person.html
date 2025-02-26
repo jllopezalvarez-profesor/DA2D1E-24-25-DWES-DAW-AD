@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Registro de nueva persona')}">
+    <title>Registro de nueva persona</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+        <h2>Registro de nueva persona</h2>
+        <form th:method="post" th:object="${person}">
+            <div>
+                <p th:each="error: ${#fields.errors()}" th:text="${error}"></p>
+            </div>
+
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="first-name" th:field="*{firstName}" th:errorclass="is-invalid">
+                <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:text="${#fields.errors('firstName')}">
+                    Error.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Apellidos</label>
+                <input type="text" class="form-control is-invalid" id="last-name" th:field="*{lastName}">
+                <div  class="invalid-feedback" >
+                    Error.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="birth-date" class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="birth-date" th:field="*{birthDate}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}">
+            </div>
+            <div class="mb-3">
+                <label for="telephone" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="telephone" th:field="*{phone}">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>
