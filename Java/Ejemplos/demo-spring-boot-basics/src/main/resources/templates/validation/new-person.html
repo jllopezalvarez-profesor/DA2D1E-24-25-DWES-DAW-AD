@@ -9,37 +9,63 @@
     <div class="container">
         <h2>Registro de nueva persona</h2>
         <form th:method="post" th:object="${person}">
-            <div>
-                <p th:each="error: ${#fields.errors()}" th:text="${error}"></p>
+            <div th:if="${#fields.hasErrors()}">
+                <p>Hay errores</p>
             </div>
 
-            <div class="mb-3">
-                <label for="first-name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="first-name" th:field="*{firstName}" th:errorclass="is-invalid">
-                <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback" th:text="${#fields.errors('firstName')}">
-                    Error.
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label for="first-name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="first-name" th:field="*{firstName}"
+                           th:errorclass="is-invalid">
+                    <p th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback"
+                         th:text="${#fields.errors('firstName')}">Error.
+                    </p>
+                    <p th:errors="*{firstName}" class="invalid-feedback">Error.</p>
+
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="last-name" class="form-label">Apellidos</label>
-                <input type="text" class="form-control is-invalid" id="last-name" th:field="*{lastName}">
-                <div  class="invalid-feedback" >
-                    Error.
+                <div class="col-sm-6 mb-3">
+                    <label for="last-name" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="last-name" th:field="*{lastName}"
+                           th:errorclass="is-invalid">
+                    <p th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback"
+                         th:text="${#fields.errors('lastName')}">Error.
+                    </p>
+                    <p th:errors="*{lastName}" class="invalid-feedback">Error.</p>
+
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="birth-date" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="birth-date" th:field="*{birthDate}">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="email" th:field="*{email}">
-            </div>
-            <div class="mb-3">
-                <label for="telephone" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telephone" th:field="*{phone}">
             </div>
 
+            <div class="row">
+                <div class="col-sm mb-3">
+                    <label for="birth-date" class="form-label">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" id="birth-date" th:field="*{birthDate}"
+                           th:errorclass="is-invalid">
+                    <p th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback"
+                         th:text="${#fields.errors('birthDate')}">Error.
+                    </p>
+                    <p th:errors="*{birthDate}" class="invalid-feedback">Error.</p>
+
+                </div>
+                <div class="col-sm mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" th:errorclass="is-invalid">
+                    <p th:if="${#fields.hasErrors('email')}" class="invalid-feedback"
+                         th:text="${#fields.errors('email')}">Error.
+                    </p>
+                    <p th:errors="*{email}" class="invalid-feedback">Error.</p>
+                </div>
+                <div class="col-sm mb-3">
+                    <label for="telephone" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="telephone" th:field="*{phone}"
+                           th:errorclass="is-invalid">
+                    <p th:if="${#fields.hasErrors('phone')}" class="invalid-feedback"
+                         th:text="${#fields.errors('phone')}">Error.
+                    </p>
+                    <p th:errors="*{phone}" class="invalid-feedback">Error.</p>
+
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary">Enviar el formulario</button>
         </form>

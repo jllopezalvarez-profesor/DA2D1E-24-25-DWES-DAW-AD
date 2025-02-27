@@ -1,4 +1,4 @@
-package es.jllopezalvarez.ejemplos.springbootbasics;
+package es.jllopezalvarez.ejemplos.springbootbasics.services;
 
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.validation.NewPersonFormDto;
 

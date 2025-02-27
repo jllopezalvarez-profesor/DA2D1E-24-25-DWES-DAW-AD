@@ -1,4 +1,4 @@
-package es.jllopezalvarez.ejemplos.springbootbasics.utils;
+package es.jllopezalvarez.ejemplos.springbootbasics.services;
 
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.DateAndTimeFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.dto.MultipleOptionFormDto;
@@ -7,24 +7,27 @@ import es.jllopezalvarez.ejemplos.springbootbasics.dto.SimpleFormDto;
 import es.jllopezalvarez.ejemplos.springbootbasics.models.common.AgeRange;
 import es.jllopezalvarez.ejemplos.springbootbasics.models.common.Hobby;
 import net.datafaker.Faker;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
-@Component
-public class DataGenerator {
+@Service
+public class DataGeneratorServiceImpl implements DataGeneratorService {
     private final Faker faker;
     private final Random random;
 
-    public DataGenerator(Faker faker) {
+    public DataGeneratorServiceImpl(Faker faker) {
         this.faker = faker;
         random = new Random();
     }
 
+    @Override
     public List<AgeRange> getAllAgeRanges() {
         return List.of(
                 new AgeRange(1, 0, 10),
@@ -38,10 +41,12 @@ public class DataGenerator {
         );
     }
 
+    @Override
     public Integer getRandomAgeRangeId() {
         return faker.number().numberBetween(0, getAllAgeRanges().size()) + 1;
     }
 
+    @Override
     public List<Hobby> getAllHobbies() {
         return List.of(
                 new Hobby(1, "Pintura"),
@@ -53,16 +58,19 @@ public class DataGenerator {
                 new Hobby(7, "Yoga"));
     }
 
+    @Override
     public Integer getRandomHobbyId() {
         return faker.number().numberBetween(0, getAllHobbies().size()) + 1;
     }
 
+    @Override
     public List<Integer> getRandomHobbyIds() {
         int limit = getAllHobbies().size() + 1;
         int count = random.nextInt(getAllHobbies().size()) + 1;
         return random.ints(count, 1, limit).boxed().toList();
     }
 
+    @Override
     public SimpleFormDto createFakeSimpleFormDto() {
         SimpleFormDto simpleFormDto = new SimpleFormDto();
         simpleFormDto.setDni(faker.idNumber().valid());
@@ -71,6 +79,7 @@ public class DataGenerator {
         return simpleFormDto;
     }
 
+    @Override
     public OptionFormDto createFakeOptionFormDto() {
         OptionFormDto optionFormDto = new OptionFormDto();
         optionFormDto.setDni(faker.idNumber().valid());
@@ -80,6 +89,7 @@ public class DataGenerator {
         return optionFormDto;
     }
 
+    @Override
     public MultipleOptionFormDto createFakeMultipleOptionFormDto() {
         MultipleOptionFormDto multipleOptionFormDto = new MultipleOptionFormDto();
         multipleOptionFormDto.setDni(faker.idNumber().valid());
@@ -89,15 +99,22 @@ public class DataGenerator {
         return multipleOptionFormDto;
     }
 
+    @Override
     public DateAndTimeFormDto createFakeDateAndTimeFormDto() {
         DateAndTimeFormDto dateAndTimeFormDto = new DateAndTimeFormDto();
         dateAndTimeFormDto.setDni(faker.idNumber().valid());
         dateAndTimeFormDto.setFirstName(faker.name().firstName());
         dateAndTimeFormDto.setLastName(faker.name().lastName());
-        dateAndTimeFormDto.setBirthDate(LocalDate.now());
-        dateAndTimeFormDto.setGoToBedTime(LocalTime.now());
-        dateAndTimeFormDto.setNextTestDatetime(LocalDateTime.now());
+        dateAndTimeFormDto.setBirthDate(faker.timeAndDate().birthday(30, 50));
+        dateAndTimeFormDto.setGoToBedTime(this.getRandomLocalTime());
+        dateAndTimeFormDto.setNextTestDatetime(LocalDateTime.ofInstant(faker.timeAndDate().future(100, 30, TimeUnit.DAYS), ZoneOffset.UTC));
         return dateAndTimeFormDto;
     }
 
+    private LocalTime getRandomLocalTime() {
+        return LocalTime.of(
+                ThreadLocalRandom.current().nextInt(20, 24),  // Horas (0-23)
+                ThreadLocalRandom.current().nextInt(0, 60), // Minutos (0-59)
+                ThreadLocalRandom.current().nextInt(0, 60));  // Segundos (0-59)
+    }
 }

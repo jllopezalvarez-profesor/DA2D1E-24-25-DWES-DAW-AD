@@ -15,8 +15,12 @@ import java.time.LocalTime;
 public class DateAndTimeFormDto extends SimpleFormDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    // No se puede usar DateTimeFormat.ISO.TIME, porque incluye segundos y milisegundos
+    // @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(pattern = "HH:mm" )
     private LocalTime goToBedTime;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    // No se puede usar DateTimeFormat.ISO.DATE_TIME, porque incluye segundos y milisegundos
+    // @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime nextTestDatetime;
 }

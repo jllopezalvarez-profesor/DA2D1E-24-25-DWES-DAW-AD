@@ -8,22 +8,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-@Getter
 @Setter
+@Getter
 @ToString
 public class NewPersonFormDto {
 
-    @NotBlank(message = "Oye, escribe algo aquí!!!")
+    @NotBlank(message = "El nombre es obligatorio")
     private String firstName;
-    @NotBlank
+    @NotBlank(message = "El apellido es obligatorio")
     private String lastName;
-    @NotNull
-    @Past
+    @NotNull(message = "La fecha de nacimiento es obligatoria")
+    @Past(message = "La fecha de nacimiento debe ser anterior al día de hoy")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
-    @Email
+    @Email(message = "El email no tiene el formato correcto")
     private String email;
-    @NotBlank
+    @NotBlank(message = "El teléfono es obligatorio")
     private String phone;
 
 }
