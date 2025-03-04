@@ -3,6 +3,9 @@ package es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.services;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.entities.Category;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.exceptions.AlreadyExistsException;
 import es.lopezalvarezjoseluis.ejemplos.ejemplo99tiendaonline.repositories.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +40,13 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(name);
         category.setDescription(description);
         categoryRepository.save(category);
+    }
+
+    @Override
+    public Page<Category> findAll(Integer pageNumber, Integer pageSize, String orderBy, String orderDir) {
+        Sort.Direction direction = orderDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by(direction, orderBy));
+
+        return categoryRepository.findAll(pageRequest);
     }
 }
