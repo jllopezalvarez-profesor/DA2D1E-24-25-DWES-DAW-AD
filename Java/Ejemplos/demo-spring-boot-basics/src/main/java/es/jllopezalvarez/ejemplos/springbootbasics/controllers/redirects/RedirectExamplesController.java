@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -129,4 +131,36 @@ public class RedirectExamplesController {
     }
 
 
+    /*
+     * Genera la página incial del ejemplo de uso de flash attributes.
+     * Muestra una página en la que se puede comprobar la fecha y hora de generación de la página.
+     * Esta página, en la plantilla, recupera los atributos "flash" para poder mostrar mensajes en función
+     * de si se ha fijado alguno, antes de que se haga una redirección.
+     */
+    @GetMapping("/flash-attributes/start")
+    public ModelAndView flashAttributesDemoStart(@ModelAttribute("errorMessage") String errorMessage) {
+
+        if (errorMessage == null) {}
+        System.out.println("Se ha recibido un atributo de flash attribute con el valor " + errorMessage);
+
+        return new ModelAndView("redirect-examples/flash-attributes/start", "createdAt", LocalDateTime.now());
+    }
+
+    @GetMapping("/flash-attributes/form")
+    public ModelAndView flashAttributesDemoForm() {
+        return new ModelAndView("redirect-examples/flash-attributes/form");
+    }
+
+
+    @PostMapping("/flash-attributes/form/option-ok")
+    public String flashAttributesDemoFormPostOk(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("successMessage", "Esto es un mensaje de éxito");
+        return "redirect:/redirects/flash-attributes/start";
+    }
+
+    @PostMapping("/flash-attributes/form/option-error")
+    public String flashAttributesDemoFormPostError(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("errorMessage", "Esto es un mensaje de error");
+        return "redirect:/redirects/flash-attributes/start";
+    }
 }

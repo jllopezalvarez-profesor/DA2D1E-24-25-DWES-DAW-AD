@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Ejemplo de uso de flash attributes en redirecciones')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Ejemplo de uso de flash attributes en redirecciones</h2>
+        <p>Esta página se ha generado: <span th:text="${createdAt}"></span></p>
+        <p>Desde esta página, se navega con un enlace (GET) a una página con dos formularios. En esa página, cada envío
+            (POST) del formulario, fija un mensaje y redirige de nuevo de vuelta a este punto inicial</p>
+        <p>Estos mensajes se fijan en los POST usando flash attributes, y se recuperan en la plantilla de esta página
+            para mostrarlos como un TOAST de Bootstrap.</p>
+        <p>Solo aparecerán los mensajes si se han fijado. Si no, como es el caso de acceder directamente a esta página,
+            no aparecerán.
+        </p>
+        <p><a th:href="@{form}">Ir a la página con formularios</a></p>
+
+        <div th:if="${successMessage}" class="alert alert-success" role="alert">
+            <p th:text="${successMessage}"></p>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

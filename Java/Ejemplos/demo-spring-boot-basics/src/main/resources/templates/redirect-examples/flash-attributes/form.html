@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Ejemplo de uso de flash attributes en redirecciones')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Ejemplo de uso de flash attributes en redirecciones - Formularios</h2>
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/redirects/flash-attributes/form/option-ok}"
+                      class="border border-success rounded p-3" method="post">
+                    <p>Este formulario hace un post a un método que fija un mensaje de éxito con flash attributes y
+                        redirige de vuelta a la página anterior. </p>
+                    <p>No tiene campos porque para esta prueba no es necesario usar ninguna clase de DTO o de campos</p>
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-success flex-fill">Enviar</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col">
+                <form th:action="@{/redirects/flash-attributes/form/option-error}"
+                      class="border border-danger rounded p-3" method="post">
+                    <p>Este formulario hace un post a un método que fija un mensaje de error con flash attributes y
+                        redirige de vuelta a la página anterior. </p>
+                    <p>No tiene campos porque para esta prueba no es necesario usar ninguna clase de DTO o de campos</p>
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-danger flex-fill">Enviar</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
