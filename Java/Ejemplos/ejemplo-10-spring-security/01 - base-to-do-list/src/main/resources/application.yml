@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: to-do-list
+  datasource:
+    url: jdbc:h2:mem:to-do-list;DATABASE_TO_LOWER=TRUE
+  jpa:
+    defer-datasource-initialization: true
+  h2:
+    console:
+      path: /h2
+      enabled: true
