@@ -11,16 +11,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AppUserDetailsService appUserDetailsService) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated()   // Todas las peticiones autenticadas
-                )
-                .formLogin(Customizer.withDefaults()) // Usa el formulario por defecto
-                .userDetailsService(appUserDetailsService); // Usar el servicio de usuarios creado
-        return http.build();
-    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+//                .formLogin(Customizer.withDefaults());
+//        return http.build();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
