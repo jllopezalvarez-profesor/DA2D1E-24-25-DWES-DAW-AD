@@ -9,3 +9,10 @@ spring:
     console:
       path: /h2
       enabled: true
+security:
+  jwt:
+    signing-key-secret: palabraClaveQueTieneQueSerLargaParaQueFuncione
+    access-token-ttl: 900000
+    refresh-token-ttl: 6000000000
+
+

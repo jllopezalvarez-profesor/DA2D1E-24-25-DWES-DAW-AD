@@ -4,8 +4,12 @@ Este ejemplo es una API básica con un único endpoint:
 
 - GET /api/v1/tasks
 
-Que se protege con JWT para evitar accesos de usuarios no autenticados. Se parte del proyecto inicial, el "01 -
-base-to-do-list", y se siguen los siguientes pasos:
+Además, hay un controlador web MVC (@Controller) con un método para una página home con plantilla thymeleaf.
+
+El objetivo es proteger la API usando JWT, y dejar el resto (la web MVC desprotegida, con acceso anónimo0)
+
+Se parte del proyecto inicial, el "01 - base-to-do-list", al que se le añade el controlador para la home MVC
+y se siguen los siguientes pasos:
 
 ### Añadir dependencias
 
@@ -14,9 +18,10 @@ Añadir al proyecto las dependencias:
 - Starter de Spring Security
 - io.jsonwebtoken.jjwt. ES una dependencia que agrupa estas tres: jjwt-api, jjwt-impl,jjwt-jackson, de io.jsonwebtoken.
 
-### Verificar que ya no se puede acceder al endpoint
+### Verificar que ya no se puede acceder al endpoint ni a la página home
 
 Al añadir Spring Security, no debería poderse hacer un GET de forma anónima a http://localhost:8080/api/v1/tasks
+Ni acceder a la página home http://localhost:8080
 
 ### Crear servicios y beans necesarios
 
@@ -24,7 +29,7 @@ Al añadir Spring Security, no debería poderse hacer un GET de forma anónima a
     - Implementa UserDetailsService
     - En concreto, el método *UserDetails loadUserByUsername(String userName)*, que tiene que buscar el usuario en la
       BD, y devolver un objeto UserDetails con nombre de usuario, contraseña y, opcionalmente, roles.
-    - Para hacerlo se puede usar la clase "User" del paquete "org.springframework.security.core.userdetails".
+    - Para hacerlo se puede devolver un objeto de la clase "User" de "org.springframework.security.core.userdetails".
     - Se puede crear como @Bean en @Configuration, o como una clase independiente anotada con @Service.
 - PasswordEncoder
     - Se pueden usar varios algoritmos de hash para claves. Uno de los más usados es BCrypt, que está implementado en la
@@ -37,7 +42,7 @@ Al añadir Spring Security, no debería poderse hacer un GET de forma anónima a
       dos cosas:
         - Una forma de obtener los datos del usuario (el servicio UserDetailsService)
         - Saber cómo se codifican contraseñas (el servicio PasswordEncoder)
-    - El Autentication manager se crea usando la clase "ProviderManager", que admite en un constructor uno o varios
+    - El AuthenticationManager se crea usando la clase "ProviderManager", que admite en un constructor uno o varios
       managers.
 
 ### Crear un controlador para autenticación
@@ -56,41 +61,41 @@ Crear un controlador "AuthController", con los métodos (de momento vacíos)
     - No necesita DTO de entrada.
 - Puede que sea interesante implementar un método revoque(). No recibiría nada, pero revocaría el token recibido.
 
-### Proteger solo los endpoints que se quieran proteger, y dejar el resto abiertos, y desactivar CSRF.
+### Crear dos SecurityFilterChain separadas, una para la API y otra para la web "normal"
 
-En la aplicación hay una mezcla de cosas:
+En el proyecto conviven dos cosas muy diferentes:
 
-- Urls de páginas a las que se puede acceder en anónimo. Básicamente toda la aplicación.
-- Urls de servicios a los que se debe poder acceder en anónimo. Los de autenticación.
-- Urls de servicios a los que se debe poder acceder solo con autorización.
+- Una aplicación web MVC + Thymeleaf, que de momento solo tiene una página home. Se debe poder acceder sin autenticar.
+- Una serie de servicios (API), divididos en dos grupos:
+    - Servicios relacionados con autenticación: register, login, etc. Estos servicios tampoco necesitan autenticación.
+    - Servicios de datos: servicio para consultar las tareas del usuario. Estos servicios son autenticados.
 
-En este momento hay que configurar la cadena de filtros (@Bean SecurityFilterChain en @Configuration) para que proteja
-algunas de las URL y no otras. Para esto:
+Hay que configurar la seguridad de los dos por separado, y dentro de los servicios diferencias entre los que necesitan
+autenticación y los que no. Para esto se crean dos clases anotadas con @Configuration, y cada una de ellas con un @Bean
+de tipo SecurityFilterChain:
 
-- Se usa el método "authorizeHttpRequests". Este método permite configurar rutas de la aplicación para que requieran o
-  no autenticación.
+- ApiSecurityConfig - Creará la cadena de filtros para la API. Para que esta cadena de filtros aplique solo en la API.
+  En esta cadena de filtros:
+    - Se usa el método "securityMatcher", que hace que la cadena generada solo aplique en cierta ruta.
+    - Se usa el método "authorizeHttpRequests" para diferenciar los dos tipos de servicios, los de autorización (no
+      autenticados) y los de tareas (autenticados).
+    - Desactiva ciertas características que no son necesarias en API: CSRF, autenticación básica, autenticación por
+      formularios.
+    - Establece sesiones sin estado, también habitual en API.
+    - Añade el filtro de autorización que procesará las cabeceras de las peticiones para buscar el token JWT y
+      validarlo.
+- WebSecurityConfig - Creará la cadena de filtros por defecto, para que se aplique solo cuando no aplique la anterior.
+  Esta cadena de filtros:
+    - Mantiene los filtros por defecto en Spring.
+    - Habilita el acceso anónimo a todas las rutas en las que aplique.
 
-También hay que desactivar la protección contra CSRF. Esto evita que se envíen formularios desde otros dominios, o
-generados de forma maliciosa. Hay dos opciones:
+Cuando hay más de una configuración es una buena práctica ordenarlas con @Order, para que Spring las evalúe y procese en
+un orden específico. Normalmente, a la clase que contiene la cadena "final", por defecto, se le da el orden más alto,
+para que sea la que más tarde interviene.
 
-- Desactivarlos de forma general. Se suele hacer en proyectos de API "puros", sin formularios. En las API CSRF no es un
-  riesgo que haya que controlar.
-- Desactivarlos solo en algunas rutas. Esto se hace con el método ignoringRequestMatchers.
+### Crear servicio JwtService
 
-### Implementar register
-
-Primero, hay que crear el usuario en la BD. para esto hay que crear un servicio AppUserService (si no existe ya). No
-confundirlo con el AppUserDetailsService. En este servicio:
-
-- Crear método AppUserService.register(). Este método:
-    - Verificará que no haya ya un usuario con el mismo nombre de usuario (email). Si lo hay, lanzará excepción que
-      se podrá controlar con RestControllerAdvice o directamente con @ExceptionHandler en el controlador.
-    - Opcionalmente, podría comprobar la fortaleza de la contraseña. Longitud mínima, caracteres especiales, etc.
-      Igualmente, si no fuera adecuada
-    - Tiene que usar el PasswordEncoder para guardar la contraseña como un hash.
-    - Devuelve el usuario creado, que se usará para generar los tokens
-
-Si el registro tiene éxito, hay que crear los tokens JWT. Para esto, crear el servicio JwtService. Este servicio
+En varios puntos de la aplicación hay que crear tokens JWT. Para esto, crear el servicio JwtService. Este servicio
 necesita una serie de parámetros que se pueden poner en config:
 
 - security.jwt.signing-key-secret: cualquier palabra. Se usa para crear una clave para firmar los
@@ -118,8 +123,37 @@ Hay que hacer estos métodos:
 - Para estos dos, se puede crear un método privado "buildToken", con los claims habituales: subject (username),
   nombre y apellidos, issuedAt (System.currentTimeMillis()), expiration = (issuedAt + duración). Que firme el token
   con el método signWith. Para este método se usa la clave mencionada anteriormente.
-- Método para validar un token, que diga si el token es o no válido.
+- Método para validar un token, que diga si el token es o no válido. Mejor un método para access token y otro para
+  refresh token.
 - Método para obtener el nombre de usuario del token
+
+### Crear un servicio AuthRequest y su método register y login
+
+Para todo lo relacionado con autenticación / autorización se crea un servicio "AuthService" Dentro de este servicio, el
+método "register", que, usando una transacción (@Transactional):
+
+- Recibe la petición (RegisterUserDto) con los datos del usuario que hay que crear.
+- Usando el servicio AppUserService (no AppUserDetailsService), con su método register(RegisterUserDto), para crear un
+  usuario. En este proceso de crear usuario:
+    - Se verificará que no haya ya un usuario con el mismo nombre de usuario (email). Si lo hay, lanzará excepción que
+      se podrá controlar con RestControllerAdvice o directamente con @ExceptionHandler en el controlador.
+    - Opcionalmente, podría comprobar la fortaleza de la contraseña. Longitud mínima, caracteres especiales, etc.
+      Igualmente, si no fuera adecuada
+    - Tiene que usar el PasswordEncoder para guardar la contraseña como un hash.
+    - Devuelve el usuario creado, que se usará para generar los tokens
+- Con el usuario ya creado, se generan los dos tokens y se devuelve un objeto JwtTokensDto, que se devuelve.
+
+El método login:
+
+- Usar AuthenticationManager.authenticate(...) con UsernamePasswordAuthenticationToken
+- Si todo va bien, buscar el usuario en la BD con AppUserService.findByEmail.
+
+Si existe el usuario, usar los métodos de JwtService para crear los tokens y:
+
+- Si se va a hacer revocación, guardar el refresh token.
+- Devolver access token y refresh token.
+
+El controlador llamará a estos métodos desde register y login
 
 ### Crear JwtAuthenticationFilter
 
@@ -142,25 +176,13 @@ Este filtro:
 
 ### Configurar la seguridad
 
-Modificar el @Bean SecurityFilterChain para:
-
-- Activar:
-    - Añadir el filtro JWT antes de UsernamePasswordAuthenticationFilter.
+Modificar el @Bean SecurityFilterChain de la API para añadir el filtro JWT antes de
+UsernamePasswordAuthenticationFilter.
 
 ### Modificar TaskService para que extraiga el usuario del contexto de seguridad
 
 Esto se ha hecho en otros ejemplos, obteniendo el usuario, a partir de este el id, y con este las tareas.
 El usuario se obtiene a través del SecurityContextHolder.
-
-### Implementar método login en AuthController
-
-Igual que register, se puede usar AppUserService para hacer el login. En este login:
-- Usar AuthenticationManager.authenticate(...) con UsernamePasswordAuthenticationToken
-- Si todo va bien, devolver el usuario (AppUser)
-
-En el controlador, usar los métodos de JwtService para crear los tokens y: 
-- Si se va a hacer revocación, guardar el refresh token.
-- Devolver access token y refresh token. Para web, el refresh token debería devolverse como cookie segura httponly
 
 ### Implementar refreshToken en AuthController
 
