@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: to-do-list
+  datasource:
+    url: jdbc:h2:mem:to-do-list;DATABASE_TO_LOWER=TRUE
+  jpa:
+    defer-datasource-initialization: true
+  h2:
+    console:
+      path: /h2
+      enabled: true
+security:
+  jwt:
+    signing-key-secret: palabraClaveQueTieneQueSerLargaParaQueFuncione
+    access-token-ttl: 900000
+    refresh-token-ttl: 6000000000
+
+

@@ -1,13 +1,9 @@
 package es.lopezalvarezjoseluis.ejemplos.security.basetodolist.config;
 
-import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.services.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -46,23 +42,10 @@ public class WebSecurityConfig {
      * @throws Exception si ocurre algún error durante la configuración de la seguridad.
      */
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthService authService) throws Exception {
-        // Solo para pruebas, desactivar protección contra CSRF
-        // http.csrf(AbstractHttpConfigurer::disable);
-
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        // De momento, permitir el acceso a cualquier parte de la aplicación.
         http.authorizeHttpRequests(auth -> auth
-                // .anyRequest().permitAll()); // permitir el acceso a cualquier parte de la aplicación.
-
-                .requestMatchers("/login-personalizado").permitAll()
-                .anyRequest().authenticated()); // Todas las peticiones autenticadas
-
-        http.formLogin(login ->
-                login
-                        .loginPage("/login-personalizado")
-
-
-        );
-
+                .anyRequest().permitAll());
         return http.build();
     }
 
