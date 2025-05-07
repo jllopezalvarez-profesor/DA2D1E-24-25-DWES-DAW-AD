@@ -3,6 +3,7 @@ package es.lopezalvarezjoseluis.ejemplos.security.basetodolist.services;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.JwtTokensDto;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.LoginUserDto;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.RegisterUserDto;
+import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.entities.AppUser;
 
 /**
  * Interfaz que define los servicios de autenticación para la aplicación.
@@ -31,4 +32,9 @@ public interface AuthService {
     JwtTokensDto login(LoginUserDto loginUserDto);
 
     JwtTokensDto refresh(String authHeader);
+
+    Long getCurrentAppUserId();
+
+    AppUser getCurrentAppUser();
+
 }

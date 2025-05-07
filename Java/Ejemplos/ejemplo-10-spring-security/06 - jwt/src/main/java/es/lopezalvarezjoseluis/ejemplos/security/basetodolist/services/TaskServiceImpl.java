@@ -16,10 +16,12 @@ import java.util.Random;
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final AppUserRepository appUserRepository;
+    private final AuthService authService;
 
-    public TaskServiceImpl(TaskRepository taskRepository, AppUserRepository appUserRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, AppUserRepository appUserRepository, AuthService authService) {
         this.taskRepository = taskRepository;
         this.appUserRepository = appUserRepository;
+        this.authService = authService;
     }
 
     @Override
@@ -28,13 +30,7 @@ public class TaskServiceImpl implements TaskService {
         if (new Random().nextDouble() < 0.25 ){
             throw new FakeErrorException("Se ha producido un error de pega");
         }
-        // Obtener nombre de usuario
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        // Obtener usuario
-        AppUser appUser = appUserRepository.findByEmail(userName)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", userName)));
         // Obtener id de usuario
-        Long userId = appUser.getUserId();
-        return taskRepository.findAllByUserUserId(userId);
+        return taskRepository.findAllByUserUserId(authService.getCurrentAppUserId());
     }
 }

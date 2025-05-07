@@ -4,6 +4,7 @@ import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.JwtTokensDto;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.LoginUserDto;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.dto.RegisterUserDto;
 import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.entities.AppUser;
+import es.lopezalvarezjoseluis.ejemplos.security.basetodolist.repositories.AppUserRepository;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserService appUserService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final AppUserRepository appUserRepository;
 
     /**
      * Constructor de {@link AuthServiceImpl} que inyecta las dependencias necesarias.
@@ -38,10 +40,11 @@ public class AuthServiceImpl implements AuthService {
      * @param jwtService            servicio para generar los tokens JWT.
      * @param authenticationManager administrador de autenticación para verificar las credenciales de los usuarios.
      */
-    public AuthServiceImpl(AppUserService appUserService, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(AppUserService appUserService, JwtService jwtService, AuthenticationManager authenticationManager, AppUserRepository appUserRepository) {
         this.appUserService = appUserService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.appUserRepository = appUserRepository;
     }
 
     /**
@@ -125,6 +128,20 @@ public class AuthServiceImpl implements AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    public Long getCurrentAppUserId() {
+        return this.getCurrentAppUser().getUserId();
+    }
+
+    @Override
+    public AppUser getCurrentAppUser() {
+        // Obtener cual es el usuario logado
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        // buscar el usuario en el repositorio
+        return appUserRepository.findByEmail(userName).orElseThrow(() ->
+                new UsernameNotFoundException(String.format("User %s not found", userName)));
     }
 }
 
