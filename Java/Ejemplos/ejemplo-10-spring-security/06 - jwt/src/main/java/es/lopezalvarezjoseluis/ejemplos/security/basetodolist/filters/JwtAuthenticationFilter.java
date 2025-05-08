@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -23,11 +24,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    // Nombre de la cabecera de autorización
+    private static final String AUTH_HEADER = "Authorization";
+    // Prefijo que precede al token JWT
+    private static final String BEARER_PREFIX = "Bearer ";
+    // Ruta que se desea proteger
+    private static final String PROTECTED_PATH = "/api/v1/tasks";
+    // Matcher para comprobar si una petición está en la ruta protegida
+    private static final AntPathRequestMatcher protectedPathMatcher = new AntPathRequestMatcher(PROTECTED_PATH);
+
     public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
-
 
 
     // El mensaje "Not annotated parameter overrides @NonNullApi parameter" que aparecer porque el paquete
@@ -42,18 +51,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         // Primero, obtener la ruta de la petición
-        String pathRequest = request.getRequestURI();
+        // Esto no es lo más adecuado porque getRequestURI da la dirección con el contextPath.
+        // Así es difícil realizar comprobaciones de rutas, porque dependen del contexpath, o de dónde se
+        // desplieguen en un servidor de aplicaciones (Tomcat / GlassFish / Jetty / WebLogic / etc.)
+        // String pathRequest = request.getRequestURI();
 
-        // Solo aplica en las rutas que queremos proteger con este filtro.
-        if (pathRequest.contains("/api/v1/tasks")) {
+        // Mejor usar un "Matcher", que permite usar paths más flexibles.
+        // En concreto, "AntPathRequestMatcher" permite trabajar directamente con la petición (HttpServletrequest)
+        // ahorrando el procesamiento de cadenas. Además, permite usar comodines estilo "Apache Ant", como **, * o *.extensión
+        if (protectedPathMatcher.matches(request)) {
             // En el try se hacen varias cosas que pueden lanzar excepción.
             // Si cualquiera de ellas falla, se deniega el acceso.
             try {
                 // Extraer cabecera de autorización
-                String authHeader = request.getHeader("Authorization");
+                String authHeader = request.getHeader(AUTH_HEADER);
 
                 // Si no hay cabecera de autorización, o si no empieza con "Bearer", no se puede acceder
-                if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
                     throw new JwtException("Authorization header missing or incorrect.");
                 }
 
