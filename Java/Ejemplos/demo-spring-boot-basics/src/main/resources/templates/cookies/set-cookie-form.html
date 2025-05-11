@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Fijar cookies con nombre y valor')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Fijar cookies con nombre y valor</h2>
+
+        <form th:action="@{/cookies/set-cookie}" method="post">
+            <p>Usa este formulario para fijar una cookie. Especifica el nombre de la cookie, y el valor que quieres
+                guardar en ella.</p>
+            <p>Pulsa "Guardar cookie" para guardar la cookie. Si abres las herramientas de desarrollo del navegador,
+                podrás ver la cookie.</p>
+            <p>En los navegadores basados en chromium (Chrome, Edge) lo tendrás en "Application".</p>
+            <p>Si se deja el campo "Valor de la cookie" en blanco, la cookie se eliminará.</p>
+            <p>Nota: este formulario no usa th:field para los campos porque no tiene un modelo, un DTO asociado. Se usa
+                un enfoque más "clásico" que asocia los campos a parámetros anotados con @RequestParam. En este caso sí
+                se usan los atributos "name" y "value" en sustitución de th:field.</p>
+
+            <div class="mb-3">
+                <label for="cookie-name" class="form-label">Nombre de la cookie</label>
+                <input type="text" class="form-control" id="cookie-name" name="cookieName" th:value="${cookieName}"
+                       aria-describedby="cookie-name-help">
+                <div id="cookie-name-help" class="form-text">Los nombres de las cookies tienen reglas. Ver
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie" target="_blank">Set-Cookie
+                        en MDN</a> si se producen problemas con el nombre de la cookie.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="cookie-value" class="form-label">Valor de la cookie</label>
+                <input type="text" class="form-control" id="cookie-value" name="cookieValue" th:value="${cookieValue}"
+                       aria-describedby="cookie-value-help">
+                <div id="cookie-value-help" class="form-text">Los valores de las cookies también tienen reglas. En la
+                    misma referencia de la MDN se comentan.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Fijar cookie</button>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

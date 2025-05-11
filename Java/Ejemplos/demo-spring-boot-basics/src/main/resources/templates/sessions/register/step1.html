@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Registro de usuario (1/5)')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Registro de usuario (1/5)</h2>
+
+        <p>Este formulario simula un asistente de cinco pasos (cuatro pasos + proceso final) para registrar un usuario.</p>
+        <p>Para evitar el uso de campos hidden para "arrastrar" los valores de un paso al siguiente, se usa @SessionAttributes en el controlador, que hace que Spring guarde automáticamente el modelo en la sesión.</p>
+
+        <form th:action="@{/sessions/register/step1}" th:object="${user}" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="text" class="form-control" id="email" th:field="*{email}" required>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Ir al paso 2</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

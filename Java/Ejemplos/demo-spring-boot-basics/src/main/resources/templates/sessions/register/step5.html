@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Registro de usuario (5/5)')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Registro de usuario (5/5)</h2>
+
+        <p>En este último paso, en el controlador, se usa un objeto SessionStatus (inyectado) para finalizar el proceso
+            de uso de modelo con @SessionAttributes.</p>
+
+        <p>Datos recogidos:</p>
+        <div>
+            <p>Email: <span th:text="${user.email}"/></p>
+            <p>Password: <span th:text="${user.password}"></span></p>
+            <p>Nombre: <span th:text="${user.name}"/></p>
+            <p>Apellidos: <span th:text="${user.lastName}"/></p>
+            <p>Acepta condiciones: <span th:text="${user.userAcceptsTermsOfUse ? 'Si' : 'No'}"/></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

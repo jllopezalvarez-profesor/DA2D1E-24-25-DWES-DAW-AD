@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Leer valor de todas las cookies de la petición')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Leer valor de todas las cookies de la petición</h2>
+        <p>Esta página lee y muestra el valor asociado a todas las cookies de la petición.</p>
+        <p>Cookies en la petición:</p>
+        <ul th:if="${cookies.size() > 0}">
+            <li th:each="cookie : ${cookies}">
+                <strong th:text="${cookie.name}"></strong>:
+                <span th:text="${cookie.value}"></span>
+            </li>
+        </ul>
+        <p th:if="${cookies.size() == 0}">No hay cookies</p>
+        <p>Para probarlo, se puede usar la página para fijar cookies arbitrarias, usando "test-cookie" como nombre de
+            cookie: <a th:href="@{/cookies/set-cookie}" th:text="@{/cookies/set-cookie}">Enlace al formulario</a></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Leer valor de una cookie usando @CookieValue')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Leer valor de una cookie usando @CookieValue</h2>
+        <p>Esta página lee y muestra el valor asociado a una cookie concreta, "test-cookie".</p>
+        <p>Para hacerlo usa la anotación @CookieValue, con un valor por defecto si la cookie no existe.</p>
+        <p>Valor de la cookie "test-cookie": <span class="fw-bold" th:text="${cookieValue}">valor de la cookie</span> </p>
+        <p>Para probarlo, se puede usar la página para fijar cookies arbitrarias, usando "test-cookie" como nombre de cookie: <a th:href="@{/cookies/set-cookie}" th:text="@{/cookies/set-cookie}">Enlace al formulario</a> </p>
+    </div>
+</div>
+</body>
+</html>

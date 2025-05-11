@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Registro de usuario (4/5)')}">
+    <title>Ejemplos Spring Boot</title>
+</head>
+<body>
+<div class="container">
+
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+
+        <h2>Registro de usuario (4/5)</h2>
+
+        <p>Datos recogidos:</p>
+        <div>
+            <p>Email: <span th:text="${user.email}"/></p>
+            <p>Nombre: <span th:text="${user.name}"/></p>
+            <p>Apellidos: <span th:text="${user.lastName}"/></p>
+        </div>
+
+        <form th:action="@{/sessions/register/step4}" th:object="${user}" method="post">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="user-accepts-terms" th:field="*{userAcceptsTermsOfUse}">
+                <label class="form-check-label" for="user-accepts-terms">Acepto los términos de uso</label>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Ir al paso 5 (y último)</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
