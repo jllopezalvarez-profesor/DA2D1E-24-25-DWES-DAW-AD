@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Subida de ficheros simple, sin DTO, con múltiples ficheros, en campos independientes con el mismo &quot;name&quot;')}">
+    <title>Subida de ficheros simple, sin DTO, con múltiples ficheros, en campos independientes con el mismo "name"</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+        <h2>Subida de ficheros simple, sin DTO, con múltiples ficheros, en campos independientes con el mismo "name"</h2>
+        <p>
+            En este formulario hay dos campos de texto, y varios de fichero. Todos los campos de fichero tienen el mismo
+            nombre (atributo "name"). En este caso, en el controlador se procesan como un array o colección de
+            MultipartFile.
+        </p>
+        <form th:method="post" enctype="multipart/form-data">
+            <div class="alert alert-success" th:if="${successMessage}">
+                <p th:text="${successMessage}">Mensaje</p>
+            </div>
+            <div class="alert alert-danger" th:if="${errorMessage}">
+                <p th:text="${errorMessage}">Mensaje</p>
+            </div>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="first-name" th:name="firstName" th:value="${firstName}">
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="last-name" th:name="lastName" th:value="${lastName}">
+            </div>
+            <div class="mb-3">
+                <label for="user-photos" class="form-label">Fotografías (puedes elegir varías, pero deben ser png)</label>
+                <input class="form-control" type="file" multiple id="user-photos" name="userPhotos">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>

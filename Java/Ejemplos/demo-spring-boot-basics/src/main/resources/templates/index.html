@@ -66,18 +66,45 @@
             <li>
                 <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos ocultos. Con valores iniciales
                     (pendiente).</a></li>
+        </ul>
+        <h2>Ejemplos relacionados con formularios con ficheros</h2>
+        <p class="ps-3">Por seguridad, los campos file no pueden tener valor inicial para que
+            no se pueda acceder a ficheros del cliente sin su intervención.</p>
+        <ul>
             <li>
-                <a th:href="@{/}">Ejemplo de formulario con campos de texto y campos de fichero (pendiente).</a>
-                <small class="fs-6">Por seguridad, los campos file no pueden tener valor inicial para que
-                    no se pueda acceder a ficheros del cliente sin su intervención.</small>
+                <a th:href="@{/forms/file-upload/simple-single}">Ejemplo de formulario con campos de texto y un campo de
+                    fichero, que se procesan sin DTO.</a>
+            </li>
+            <li>
+                <a th:href="@{/forms/file-upload/simple-multiple}">Ejemplo de formulario con campos de texto y múltiples
+                    campos
+                    de fichero, que se procesan sin DTO.</a>
+            </li>
+            <li>
+                <a th:href="@{/forms/file-upload/simple-multiple-attribute}">Ejemplo de formulario con campos de texto y
+                    un campo
+                    de fichero, con el atributo "multiple", que se procesan sin DTO.</a>
+            </li>
+            <li>
+                <a th:href="@{/forms/file-upload/dto-single}">Ejemplo de formulario con campos de texto y
+                    un campo de fichero, que se procesan con un DTO y que usa BindingResults.</a>
+            </li>
+
+            <li>
+                <a th:href="@{/forms/file-upload/dto-multiple-attribute}">Ejemplo de formulario con campos de texto y
+                    un campo de fichero, con el atributo "multiple" que se procesan con un DTO y que usa
+                    BindingResults.</a>
             </li>
         </ul>
+
         <h2>Ejemplos relacionados con cookies</h2>
         <ul>
             <li>
-                <a th:href="@{/cookies/set-cookie}">Formulario para fijar cookies con el nombre y valor arbitrarios (los que se quieran).</a></li>
+                <a th:href="@{/cookies/set-cookie}">Formulario para fijar cookies con el nombre y valor arbitrarios (los
+                    que se quieran).</a></li>
             <li>
-                <a th:href="@{/cookies/get-cookie-value}">Página para leer el valor de una cookie específica, usando @CookieValue en el controlador.</a></li>
+                <a th:href="@{/cookies/get-cookie-value}">Página para leer el valor de una cookie específica, usando
+                    @CookieValue en el controlador.</a></li>
             <li>
                 <a th:href="@{/cookies/get-all-cookies}">Página para leer todas las cookies de la petición.</a></li>
 
@@ -85,7 +112,8 @@
         <h2>Ejemplos relacionados con sesiones</h2>
         <ul>
             <li>
-                <a th:href="@{/sessions/register/step1}">Ejemplo de formulario con asistente de varios pasos que usa sesiones para almacenar el modelo.</a></li>
+                <a th:href="@{/sessions/register/step1}">Ejemplo de formulario con asistente de varios pasos que usa
+                    sesiones para almacenar el modelo.</a></li>
         </ul>
     </div>
 

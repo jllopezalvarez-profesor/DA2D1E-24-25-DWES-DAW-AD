@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Subida de ficheros cn DTO, con un solo fichero')}">
+    <title>Subida de ficheros cn DTO, con un solo fichero</title>
+</head>
+<body>
+<div class="container">
+    <header th:replace="~{fragments/fragments :: header}"></header>
+    <div class="container">
+        <h2>Subida de ficheros cn DTO, con un solo fichero</h2>
+        <p>
+            En este formulario hay dos campos de texto, y uno de fichero. Los tres campos, en el controlador, se
+            procesan con un DTO que se marca como @Valid y @ModelAttribute, y se usa BindingResults para la validación.
+        </p>
+        <form th:method="post" enctype="multipart/form-data" th:object="${userData}">
+            <div class="alert alert-success" th:if="${successMessage}">
+                <p th:text="${successMessage}">Mensaje</p>
+            </div>
+            <div class="alert alert-danger" th:if="${#fields.hasGlobalErrors()}">
+                <p>Se han producido errores "globales":</p>
+                <ul>
+                    <li th:each="error: ${#fields.globalErrors()}" th:text="error"></li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="first-name" th:field="*{firstName}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}"
+                     th:text="${#fields.errors('firstName')}">
+                    Error
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="last-name" th:field="*{lastName}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}"
+                     th:text="${#fields.errors('lastName')}">
+                    Error
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="user-photo" class="form-label">Fotografía (debe ser png)</label>
+                <input class="form-control" type="file" id="user-photo" th:field="*{photo}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('photo')}"
+                     th:text="${#fields.errors('photo')}">
+                    Error
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+</html>
